@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import Menu from "./Menu";
 
 const Root = () => (
-  <MemoryRouter>
+  <MemoryRouter basename="/purvie">
     <Menu />
   </MemoryRouter>
 );
