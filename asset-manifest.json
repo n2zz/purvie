@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/purvie/static/css/main.f8d3bcc8.chunk.css",
+    "main.css": "/purvie/static/css/main.db519246.chunk.css",
     "main.js": "/purvie/static/js/main.0558d46f.chunk.js",
     "main.js.map": "/purvie/static/js/main.0558d46f.chunk.js.map",
     "runtime-main.js": "/purvie/static/js/runtime-main.cb693675.js",
@@ -8,16 +8,16 @@
     "static/js/2.3ad7d710.chunk.js": "/purvie/static/js/2.3ad7d710.chunk.js",
     "static/js/2.3ad7d710.chunk.js.map": "/purvie/static/js/2.3ad7d710.chunk.js.map",
     "index.html": "/purvie/index.html",
-    "precache-manifest.dcecc9e7e2d34bb55cd367cac2939b87.js": "/purvie/precache-manifest.dcecc9e7e2d34bb55cd367cac2939b87.js",
+    "precache-manifest.a30b0683d235d9652e18db7417f1527d.js": "/purvie/precache-manifest.a30b0683d235d9652e18db7417f1527d.js",
     "service-worker.js": "/purvie/service-worker.js",
-    "static/css/main.f8d3bcc8.chunk.css.map": "/purvie/static/css/main.f8d3bcc8.chunk.css.map",
+    "static/css/main.db519246.chunk.css.map": "/purvie/static/css/main.db519246.chunk.css.map",
     "static/js/2.3ad7d710.chunk.js.LICENSE": "/purvie/static/js/2.3ad7d710.chunk.js.LICENSE",
     "static/media/index.css": "/purvie/static/media/bg2.c98c5c9f.png"
   },
   "entrypoints": [
     "static/js/runtime-main.cb693675.js",
     "static/js/2.3ad7d710.chunk.js",
-    "static/css/main.f8d3bcc8.chunk.css",
+    "static/css/main.db519246.chunk.css",
     "static/js/main.0558d46f.chunk.js"
   ]
 }
