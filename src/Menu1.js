@@ -1,19 +1,23 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Menu1Link from "./Menu1Link";
 import App from "./App";
 
-class Menu extends Component {
+class Menu1 extends Component {
   render() {
     return (
       <div>
-        <Menu1Link />
-        <Route exact path="/" component={App} />
-        <Route path="/submenu1/" component={App} />
-        <Route path="/submenu2/" component={App} />
+        <BrowserRouter>
+          <Menu1Link />
+          <Switch>
+            <Route path="/" component={App} />
+            <Route path="/app/:section" component={App} />
+            <Route path="/app/:section/:genre" component={App} />
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }
 }
 
-export default Menu;
+export default Menu1;

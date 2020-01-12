@@ -2,7 +2,7 @@
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(58, 58, 58, 0.3);
 }
 
 ::-webkit-scrollbar {
@@ -11,15 +11,29 @@
 }
 
 ul {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 0.7em;
+  padding-bottom: 0.7em;
 }
 ul li {
   display: inline;
   border-right: 1px solid #999;
-  font: bold 24px Dotum;
-  padding: 0 5px;
+  padding: 0 2em;
 }
+
+.menu_link_li_style {
+  color : #ffffff;
+  font-size:1.7em;
+  font-weight:bolder;
+  font-family : "Malgun Gothic";
+}
+
+.menu_link_sub_li_style {
+  color : #ffffff;
+  font-size:1.2em;
+  font-weight:bolder;
+  font-family : "Malgun Gothic";
+}
+
 ul li:last-child {
   border-right: none;
 }

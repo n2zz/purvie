@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-import { Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import logo from "./images/logo-square.png";
 import App from "./App";
 import Menu1 from "./Menu1";
+import Menu2 from "./Menu2";
 import MenuLink from "./MenuLink";
+import "./Menu.css";
 
 const title = "PURVIE";
 
@@ -22,13 +24,23 @@ class Menu extends Component {
             alt="favicon"
           />
         </Helmet>
-        <div>
-          <img src={logo} align="left" width="50" height="50"></img>
-          <h1>PURVIE</h1>
+        <div className="menu_head">
+          <div className="menu_icon">
+            <img src={logo} className="img_title_icon"></img>
+          </div>
+          <div className="menu_title">
+            PURVIE
+          </div>
         </div>
-        <MenuLink />
-        <Route path="/" component={Menu1} />
-        <Route path="/menu1" component={Menu1} />
+          <BrowserRouter>
+            <MenuLink />
+            <Switch>
+              <Route path="/menu1"component={Menu1} />
+              <Route path="/menu2" component={Menu2} />
+              <Route path="/menu3" component={Menu1} />
+              <Route path="/menu6" component={Menu1} />
+            </Switch>
+          </BrowserRouter>
       </div>
     );
   }
