@@ -829,6 +829,7 @@ class MovieDataLoader
                             // 성공한 경우 포스터 URL 삽입
                             if(response.status === 200)
                             {
+                                console.log(response);
                                 // 포스터 이미지가 없거나 results객체에 poster_path값이 없는 경우는 
                                 // No Image URL로 설정한다.
                                 let arrResult = response.data.results;
