@@ -7,16 +7,16 @@ const MenuLink = () => {
     <div id="mdiv">
       <ul>
         <li>
-          <Link to="/menu1">PURVIE</Link>
+          <Link to="/menu1" className="menu_link_li_style">PURVIE</Link>
         </li>
         <li>
-          <Link to="/menu2">PURPlog</Link>
+          <Link to="/menu2" className="menu_link_li_style">PURPlog</Link>
         </li>
         <li>
-          <Link to="/menu3">PUReview</Link>
+          <Link to="/menu3" className="menu_link_li_style">PUReview</Link>
         </li>
         <li>
-          <Link to="/menu6">MY</Link>
+          <Link to="/menu6" className="menu_link_li_style">MY</Link>
         </li>
       </ul>
     </div>
