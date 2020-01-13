@@ -715,7 +715,6 @@ class MovieDataLoader
             objParams.params.itemPerPage = this.search_condition.item_per_page;
             
             // 국내/외 영화 구분
-            console.log("Nation_section : " + this.search_condition.nation_section);
             if(this.search_condition.nation_section !== null 
                 && this.search_condition.nation_section !== "")
             {
@@ -769,8 +768,6 @@ class MovieDataLoader
             //objParams.params.movieTypeCd = "220101";
 
             // 일반 검색/장르 검색일 경우 로드할 페이지를 다르게 설정한다.
-            console.log("this.search_condition.genre : " + this.search_condition.genre);
-
             if(this.search_condition.genre === "")
             {
                 objParams.params.curPage = this.search_condition.current_page;
@@ -829,7 +826,6 @@ class MovieDataLoader
                         }
                     ).then((response) => 
                         {
-                            console.log(response);
                             // 성공한 경우 포스터 URL 삽입
                             if(response.status === 200)
                             {
@@ -857,7 +853,6 @@ class MovieDataLoader
                                                                     value : strPosterURL
                                                                     , writable : false
                                                                     , configurable: false});
-                                console.log("Poster URL =>" + objMovieData.poster_url);
                             }
                             
                             return objMovieData;
@@ -954,7 +949,6 @@ class MovieDataLoader
                     if(objMovieData != null)
                     {
                         // 포스터를 가져온다.
-                        console.log("상세정보 포스터 부르기");
                         objThis.movie_data = objMovieData
                         objThis.getMoviePoster(objMovieData);
                     }
@@ -1011,8 +1005,6 @@ class MovieDataLoader
         axios.get(strCurrentAPIURL
                 , objAPIParams
                 ).then((response) => {
-                        console.log(response);
-                        console.log(response.data);
 
                         // 결과를 리턴 받은 경우
                         // 성공적으로 가져왔으면 포스터를 설정한다
@@ -1057,7 +1049,6 @@ class MovieDataLoader
                                 arrMovieData.push(objBOData);
 
                                 // 포스터를 가져온다.
-                                console.log("포스터 부르기");
                                 objThis.getMoviePoster(objBOData);
                             }
                             
@@ -1105,7 +1096,8 @@ class MovieDataLoader
                         // 성공적으로 가져왔으면 포스터를 설정한다
                         if(response.status === 200)
                         {
-                            jsnMovieList = response.data.movieListResult.movieList;
+                            jsnMovieList = response.data.movieListResult.movieList; 
+                            console.log(response.data.movieListResult.movieList);
     
                             if(jsnMovieList != null)
                             {
@@ -1278,7 +1270,7 @@ class MovieDataLoader
                             failedLoad(strErrorMsg);
                         }
                     }
-                    , 15000  // 15초 후 데이터가 없으면 에러로 간주한다.
+                    , 300000  // 30초 후 데이터가 없으면 에러로 간주한다.
                 );
             }
         );

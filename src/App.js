@@ -94,12 +94,12 @@ class App extends Component {
   /**
    * 박스오피스 목록을 가져온다.
    */
-  getBoxofficeList()
+  getBoxofficeList(bDaily)
   {
     let objThis = this;
 
     this.ldrMovieData.search_condition.item_per_page = 7;
-    this.ldrMovieData.search_condition.is_daily = true;
+    this.ldrMovieData.search_condition.is_daily = bDaily;
     this.ldrMovieData.search_condition.nation_section = this.ldrMovieData.ALL;
     //this.ldrMovieData.search_condition.product_year = "2017";
     //this.ldrMovieData.search_condition.movie_title = "백두산";
@@ -140,6 +140,23 @@ class App extends Component {
     );
   }
 
+  getList()
+  {
+    let strGenre = this.props.match.params.genre;
+
+    if(strGenre === 'daily' || strGenre == null)
+    {
+      this.getBoxofficeList(true);
+    }
+    else if(strGenre === 'weekly')
+    {
+      this.getBoxofficeList(false);
+    }
+    else
+    {
+      this.getMovieList(strGenre);
+    }
+  }
   /**
    * component가 완전히 마운트 된 경우 호출 함수
    * 넘겨받은 파라미터 값을 참고하여 결과를 출력한다.
@@ -147,20 +164,12 @@ class App extends Component {
    *  - genre : 장르
    */
   componentDidMount() {
-    let objThis = this;
-    let strSection = this.props.match.params.section;
-    let strGenre = this.props.match.params.genre;
+    this.getList();
+  }
 
-    console.log(strSection);
-    if(strSection === 'movie')
-    {
-      this.getMovieList(strGenre);
-    }
-    else
-    {
-      this.getBoxofficeList();
-    }
-    //this.getInfo("20191311");
+  componentDidUpdate(nextProps) 
+  {
+    this.getList();
   }
 
   /**

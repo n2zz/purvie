@@ -3,17 +3,18 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Menu1Link from "./Menu1Link";
 import App from "./App";
 
+import "./Menu.css";
+
 class Menu1 extends Component {
   render() {
     return (
       <div>
         <BrowserRouter>
           <Menu1Link />
-          <Switch>
-            <Route path="/" component={App} />
-            <Route path="/app/:section" component={App} />
-            <Route path="/app/:section/:genre" component={App} />
-          </Switch>
+            <Route exact path="/" component={App} />
+            <Route exact path="/menu1" component={App} />
+            <Route path="/menu1/boxoffice/:genre" component={App} />
+            <Route path="/menu1/movie/:genre" component={App} />
         </BrowserRouter>
       </div>
     );

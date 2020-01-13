@@ -34,10 +34,14 @@ class Menu extends Component {
         </div>
           <BrowserRouter>
             <MenuLink />
-            <Route path="/menu1"component={Menu1} />
-            <Route path="/menu2" component={Menu2} />
-            <Route path="/menu3" component={Menu1} />
-            <Route path="/menu6" component={Menu1} />
+            <Switch> 
+              <Route exact path="/"component={Menu1} />
+              <Route path="/menu1"component={Menu1} />
+              <Route path="/menu2" component={Menu2} />
+              <Route path="/menu3" component={Menu1} />
+              <Route path="/menu6" component={Menu1} />
+            </Switch>
+            
           </BrowserRouter>
       </div>
     );

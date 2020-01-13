@@ -4,7 +4,7 @@ import "./MenuLink.css";
 
 const Menu2Link = () => {
   return (
-    <div id="mdiv">
+    <div id="mdiv_sub_menu">
       <ul>
         <li>
           <Link to="/submenu1" className="menu_link_sub_li_style">Top Blog</Link>
