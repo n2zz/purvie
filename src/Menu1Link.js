@@ -4,7 +4,7 @@ import "./MenuLink.css";
 
 const Menu1Link = () => {
   return (
-    <div id="mdiv">
+    <div id="mdiv_sub_menu">
       <ul>
         <li>
           <Link to="/menu1/boxoffice/daily" className="menu_link_sub_li_style">일별박스오피스</Link>

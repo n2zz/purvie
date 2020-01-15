@@ -24,26 +24,33 @@ class Menu extends Component {
             alt="favicon"
           />
         </Helmet>
-        <div className="menu_head">
-          <div className="menu_icon">
-            <img src={logo} className="img_title_icon"></img>
+        <BrowserRouter>
+          <div className="menu_head">
+            <div className="menu_icon">
+              <img src={logo} className="img_title_icon"></img>
+            </div>
+            <div className="menu_title">
+              PURVIE
+            </div>
           </div>
-          <div className="menu_title">
-            PURVIE
-          </div>
-        </div>
-          <BrowserRouter>
+          <div className="menu1">
             <MenuLink />
-            <Switch> 
-              <Route exact path="/"component={Menu1} />
-              <Route path="/menu1"component={Menu1} />
-              <Route path="/menu2" component={Menu2} />
-              <Route path="/menu3" component={Menu1} />
-              <Route path="/menu6" component={Menu1} />
-            </Switch>
-            
+          </div>
+          <div className="search">
+              <input type="text" class="search_input" placeholder="Search"/>
+              <div class="search_line"></div>
+              <div class="search_close"></div>
+          </div>
+          <div>
+              <Switch> 
+                <Route exact path="/"component={Menu1} />
+                <Route path="/menu1"component={Menu1} />
+                <Route path="/menu2" component={Menu2} />
+              </Switch>
+          </div>
           </BrowserRouter>
       </div>
+        
     );
   }
 }
