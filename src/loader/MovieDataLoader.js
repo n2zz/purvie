@@ -7,14 +7,14 @@ class MovieDataLoader
      */
     constructor()
     {
-        let objThis = this;
+        const THIS = this;
 
         /////////////////////////////////////////////////////////////////////////////////////////
         //
         //                  상수 정의
         //
 
-        // API 키들
+        // API 키들(The Movie DB, 영화진흥위원회, 네이버 순)
         Object.defineProperty(this, "MOVIEPOSTER_API_KEY"
                                 , {value : "15d2ea6d0dc1d476efbca3eba2b9bbfb"
                                 , writable : false
@@ -23,18 +23,32 @@ class MovieDataLoader
                                 , {value : "835b781c9cbd73d0521d5e5a878da647"
                                 , writable : false
                                 , configurable: false});
+        Object.defineProperty(this, "NAVER_API_ID"
+                                , {value : "XASdULslnCsEzbR70dyP"
+                                , writable : false
+                                , configurable: false});
+        Object.defineProperty(this, "NAVER_API_KEY"
+                                , {value : "JWGTpJO5Db"
+                                , writable : false
+                                , configurable: false});
         
-        // THE MOVIDE DB API URL
+        // THE MOVIDE DB API URL(포스터 URL 및 썸네일 관련)
         let strMPAPIURL = "https://api.themoviedb.org/3/search/movie";
         Object.defineProperty(this, "MOVIEPOSTER_API_URL"
                                 , {value : strMPAPIURL
                                 , writable : false
                                 , configurable: false});
-
-        // 영화 포스터 이미지 URL Prefix
+        // 영화 포스터 및 썸네일 이미지 URL Prefix
         let strPosterURLPrefix = "http://image.tmdb.org/t/p/w500/";
         Object.defineProperty(this, "MOVIEPOSTER_URL_PREFIX"
                                 , {value : strPosterURLPrefix
+                                , writable : false
+                                , configurable: false});
+        
+        // 네이버 API URL
+        let strNaverAPIURLPrefix = "https://openapi.naver.com/v1/search/movie.json";
+        Object.defineProperty(this, "NAVERCODE_API_URL"
+                                , {value : strNaverAPIURLPrefix
                                 , writable : false
                                 , configurable: false});
 
@@ -174,13 +188,13 @@ class MovieDataLoader
                                 }
                             );
         // 검색 색션 (BOXOFFICE : 박스오피스, MOVIE : 일반 / 기본 일반 )
-        let m_strSection = objThis.MOVIE;
+        let m_strSection = THIS.MOVIE;
         Object.defineProperty(this.search_condition, "section"
                                 , {
                                     get() { return m_strSection; },
                                     set(strSection) {
-                                        if(strSection === objThis.MOVIE
-                                            || strSection === objThis.BOXOFFICE)
+                                        if(strSection === THIS.MOVIE
+                                            || strSection === THIS.BOXOFFICE)
                                         {
                                             m_strSection = strSection;
                                         }
@@ -231,12 +245,12 @@ class MovieDataLoader
                                                 let nBackPageCnt = 0;
                                                 for(nFirst = 0; nFirst <= nLast;nFirst++)
                                                 {
-                                                    nBackPageCnt += Number(objThis.m_arrPagingHistory.pop());
+                                                    nBackPageCnt += Number(THIS.m_arrPagingHistory.pop());
                                                 }
-                                                objThis.m_nGenreEndPageIndex = objThis.m_nGenreEndPageIndex - nBackPageCnt;
+                                                THIS.m_nGenreEndPageIndex = THIS.m_nGenreEndPageIndex - nBackPageCnt;
                                             }
                                             
-                                            objThis.m_nGenreStartPageIndex = objThis.m_nGenreEndPageIndex;
+                                            THIS.m_nGenreStartPageIndex = THIS.m_nGenreEndPageIndex;
 
                                             m_nCurrentPage = nCurrentPage;
                                         }
@@ -281,9 +295,9 @@ class MovieDataLoader
                                 , {
                                     get() { return m_strNationSection; },
                                     set(strNationSection) {
-                                        if(strNationSection === objThis.ALL
-                                            || strNationSection === objThis.KOREA
-                                            || strNationSection === objThis.FOREIGN)
+                                        if(strNationSection === THIS.ALL
+                                            || strNationSection === THIS.KOREA
+                                            || strNationSection === THIS.FOREIGN)
                                         {
                                             m_strNationSection = strNationSection;
                                         }
@@ -344,9 +358,9 @@ class MovieDataLoader
                                         {
                                             if(m_strGenre !== strGenre)
                                             {
-                                                objThis.m_nGenreEndPageIndex = 1;
-                                                objThis.m_nGenreStartPageIndex = 1;
-                                                objThis.m_arrPagingHistory = []
+                                                THIS.m_nGenreEndPageIndex = 1;
+                                                THIS.m_nGenreStartPageIndex = 1;
+                                                THIS.m_arrPagingHistory = []
                                             }
                                             m_strGenre = strGenre;
                                         }
@@ -370,22 +384,7 @@ class MovieDataLoader
                                 ,{value : this.WAITING
                                 , writable : false
                                 , configurable: true});
-
-        // 영화 데이터 목록을 저장할 리스트 객체
-        let m_arrMovieData = null;
-        Object.defineProperty(this, 'movie_data_list'
-                                , {
-                                    get() { return m_arrMovieData; },
-                                    set(arrMovieData) {
-                                        if(typeof(arrMovieData) == 'object')
-                                        { 
-                                            m_arrMovieData = arrMovieData;
-                                        } 
-                                    },
-                                    enumerable: true,
-                                    configurable: false
-                                }
-                            );
+        
         // 영화 상세정보를 저장할 객체
         let m_objMovieData = null;
         Object.defineProperty(this, 'movie_data'
@@ -464,20 +463,20 @@ class MovieDataLoader
      */
     forcedCallResolve(objReturnData)
     {
-        let objThis = this;
+        const THIS = this;
 
-        if(objThis.m_hdlPromiseTimer != null)
+        if(THIS.m_hdlPromiseTimer != null)
         {
             setTimeout(
                 function()
                 {
                     // 로더 상태를 로딩중으로 변경한다.
-                    Object.defineProperty(objThis, "status"
-                                                ,{value : objThis.WAITING
+                    Object.defineProperty(THIS, "status"
+                                                ,{value : THIS.WAITING
                                                 , writable : false
                                                 , configurable: true});
-                    clearTimeout(objThis.m_hdlPromiseTimer);
-                    objThis.onfulloadcomplete(objReturnData);
+                    clearTimeout(THIS.m_hdlPromiseTimer);
+                    THIS.onfulloadcomplete(objReturnData);
                 }
                 , 500
             );
@@ -490,22 +489,22 @@ class MovieDataLoader
      */
     forcedCallReject(srtMessage)
     {
-        let objThis = this;
+        const THIS = this;
 
-        if(objThis.m_hdlPromiseTimer != null)
+        if(THIS.m_hdlPromiseTimer != null)
         {
             setTimeout(
                 function()
                 {
                     // 로더 상태를 로딩중으로 변경한다.
-                    Object.defineProperty(objThis, "status"
-                                                ,{value : objThis.WAITING
+                    Object.defineProperty(THIS, "status"
+                                                ,{value : THIS.WAITING
                                                 , writable : false
                                                 , configurable: true});
-                    clearTimeout(objThis.m_hdlPromiseTimer);
-                    objThis.onfailedload(srtMessage);
+                    clearTimeout(THIS.m_hdlPromiseTimer);
+                    THIS.onfailedload(srtMessage);
 
-                    objThis.m_hdlPromiseTimer = null;
+                    THIS.m_hdlPromiseTimer = null;
                 }
                 , 500
             );
@@ -578,9 +577,13 @@ class MovieDataLoader
 
     /**
      * 받은 객체를 객체로 변환 후 반환한다.
+     * 
         objMovieData.movie_id = "";                 // 영화 호출용 고유번호
+        objMovieData.naver_code = "";               // 줄거리, 리뷰 웹크롤링용(getNaverMovieCode함수에서 생성)
         objMovieData.movie_title = "";              // 영화명
-        objMovieData.poster_url = "";               // 포스터 URL
+        objMovieData.poster_url = "";               // 포스터 URL(getMoviePoster함수에서 생성)
+        objMovieData.stillcut_url = "";             // 스틸컷 URL(getMoviePoster함수에서 생성)
+        objMovieData.thubnail_url = "";             // 썸네일 URL(getNaverCode함수에서 생성)
         objMovieData.product_year = "";             // 제작연도
         objMovieData.show_time = "";                // 상영시간
         objMovieData.open_year = "";                // 개봉연도
@@ -637,6 +640,7 @@ class MovieDataLoader
                                                         , configurable: false});
             }
         }
+        // 상세정보 요청인 경우
         else
         {
             // 제작연도
@@ -808,18 +812,50 @@ class MovieDataLoader
     }
     
     /**
+     * 네이버 영화 코드를 반환한다.
+     */
+    getNaverCode(objMovieData)
+    {
+        /*
+        const http = require('http');
+        const THIS = this;
+        const REQUEST = require('request');
+        const OPTIONS = {
+            query : objMovieData.movie_title
+        }
+        
+        REQUEST.get(
+            {
+                uri:'https://openapi.naver.com/v1/search/movie.json'
+                , qs : OPTIONS
+                , headers:{
+                    'X-Naver-Client-Id' : THIS.NAVER_API_ID
+                    , 'X-Naver-Client-Secret' : THIS.NAVER_API_KEY
+                }
+            }, function(err, res, body)
+            {
+                if(body != null)
+                {
+                    let jsnBody = JSON.parse(body);
+                    console.log(jsnBody);
+                }
+                
+            }
+        );*/
+    }
+    /**
     *  해당 영화에 맞는 포스터를 가져온다.
     */ 
     getMoviePoster(objMovieData)
     {
-        var objThis = this;
+        const THIS = this;
         
         // 넘겨 받은 객체가 Null이 아닌 경우 포스터를 가져 온다.
         if(objMovieData != null)
         {
-            axios.get(objThis.MOVIEPOSTER_API_URL
+            return axios.get(THIS.MOVIEPOSTER_API_URL
                         , {params: { 
-                                api_key : objThis.MOVIEPOSTER_API_KEY
+                                api_key : THIS.MOVIEPOSTER_API_KEY
                                 , query : objMovieData.movie_title
                             }
                             ,timeout: 1000 // 1초 이내에 응답이 오지 않으면 에러로 간주
@@ -829,52 +865,59 @@ class MovieDataLoader
                             // 성공한 경우 포스터 URL 삽입
                             if(response.status === 200)
                             {
-                                console.log(response);
-                                // 포스터 이미지가 없거나 results객체에 poster_path값이 없는 경우는 
+                                // 포스터 이미지(스틸컷)가 없거나 results객체에 poster_path(backdrop_path)값이 없는 경우는 
                                 // No Image URL로 설정한다.
                                 let arrResult = response.data.results;
                                 let strPosterURL = "";
+                                let strStillcutURL = "";
                                 if(arrResult != null && arrResult.length > 0)
                                 {
                                     if(arrResult[0].poster_path != null)
                                     {
-                                        strPosterURL = objThis.MOVIEPOSTER_URL_PREFIX + arrResult[0].poster_path;
+                                        strPosterURL = THIS.MOVIEPOSTER_URL_PREFIX + arrResult[0].poster_path;
                                     }
                                     else
                                     {
-                                        strPosterURL = objThis.NO_POSTER_IMAGE_URL;
-                                    }   
+                                        strPosterURL = THIS.NO_POSTER_IMAGE_URL;
+                                    } 
+                                    if(arrResult[0].backdrop_path != null)
+                                    {
+                                        strStillcutURL = THIS.MOVIEPOSTER_URL_PREFIX + arrResult[0].backdrop_path;
+                                    }
+                                    else
+                                    {
+                                        strStillcutURL = THIS.NO_POSTER_IMAGE_URL;
+                                    } 
                                 }
                                 else
                                 {
-                                    strPosterURL = objThis.NO_POSTER_IMAGE_URL;
+                                    strPosterURL = THIS.NO_POSTER_IMAGE_URL;
+                                    strStillcutURL = THIS.NO_POSTER_IMAGE_URL;
                                 }
 
                                 Object.defineProperty(objMovieData, "poster_url", {
                                                                     value : strPosterURL
                                                                     , writable : false
                                                                     , configurable: false});
+                                Object.defineProperty(objMovieData, "stillcut_url", {
+                                                                    value : strStillcutURL
+                                                                    , writable : false
+                                                                    , configurable: false});
                             }
                             
                             return objMovieData;
                         }
-                    ).then(function(objMovieData)
-                        {
-                            // 마지막 영화 데이터인 경우 settimeout을 강제 종료하고 결과를 반환한다.
-                            if(objMovieData.is_last_data)
-                            {
-                                if(objThis.search_condition.is_list)
-                                {    
-                                    objThis.forcedCallResolve(objThis.movie_data_list);
-                                }
-                                else
-                                {
-                                    objThis.forcedCallResolve(objThis.movie_data);
-                                }
-                            }
-                        }
                     );
         
+        }
+        else
+        {
+            return new Promise(
+                function(resolve, reject)
+                {
+                    resolve(null);
+                }
+            )
         }        
     }
     
@@ -924,14 +967,14 @@ class MovieDataLoader
      */
     getMovieInfo(strMovieID)
     {
-        let objThis = this;
+        const THIS = this;
         // API 파라미터를 설정한다.
-        let objParams = objThis.getAPIParams();
+        let objParams = THIS.getAPIParams();
         objParams.params.movieCd = strMovieID;
 
         if(strMovieID != null && strMovieID !== "")
         {
-            axios.get(objThis.KOBIS_API_MOVIE_INFO_URL
+            axios.get(THIS.KOBIS_API_MOVIE_INFO_URL
                 , objParams
             ).then((response) => 
                 {
@@ -940,7 +983,7 @@ class MovieDataLoader
                     // 성공한 경우 포스터 URL 삽입
                     if(response.status === 200)
                     {
-                        objMovieData = objThis.convertMovieObject(response.data.movieInfoResult.movieInfo);
+                        objMovieData = THIS.convertMovieObject(response.data.movieInfoResult.movieInfo);
                     }
                     
                     return objMovieData;
@@ -950,8 +993,8 @@ class MovieDataLoader
                     if(objMovieData != null)
                     {
                         // 포스터를 가져온다.
-                        objThis.movie_data = objMovieData
-                        objThis.getMoviePoster(objMovieData);
+                        THIS.movie_data = objMovieData
+                        THIS.getMoviePoster(objMovieData);
                     }
                 }
             );
@@ -968,7 +1011,7 @@ class MovieDataLoader
     getKOBISList()
     {  
         var arrMovieData = null;                           // 영화 데이터 목록
-        var objThis = this;                                // this 객체
+        const THIS = this;                                // this 객체
 
         let jsnMovieList = null;                           // API 후 넘겨 받은 JSON객체
         let strCurrentAPIURL = "";                         // API URL  
@@ -976,34 +1019,34 @@ class MovieDataLoader
         let strListKey = "";                               // API JSON 목록 키값
 
         // 박스오피스 요청 시
-        if(objThis.search_condition.section === objThis.BOXOFFICE)
+        if(THIS.search_condition.section === THIS.BOXOFFICE)
         {
-            if(objThis.search_condition.is_daily)
+            if(THIS.search_condition.is_daily)
             {
-                strCurrentAPIURL = objThis.KOBIS_API_BOXOFFICE_DAILY_LIST_URL;
+                strCurrentAPIURL = THIS.KOBIS_API_BOXOFFICE_DAILY_LIST_URL;
                 strResultKey = "boxOfficeResult";
                 strListKey = "dailyBoxOfficeList";
             }
             else
             {
-                strCurrentAPIURL = objThis.KOBIS_API_BOXOFFICE_WEEKLY_LIST_URL;
+                strCurrentAPIURL = THIS.KOBIS_API_BOXOFFICE_WEEKLY_LIST_URL;
                 strResultKey = "boxOfficeResult";
                 strListKey = "weeklyBoxOfficeList";
             }
         }
         // 일반 영화 목록 요청 시
-        else if(objThis.search_condition.section === objThis.MOVIE)
+        else if(THIS.search_condition.section === THIS.MOVIE)
         {
-            strCurrentAPIURL = objThis.KOBIS_API_MOVIE_LIST_URL;
+            strCurrentAPIURL = THIS.KOBIS_API_MOVIE_LIST_URL;
             strResultKey = "movieListResult";
             strListKey = "movieList";
         }
         console.log("Load URL : " + strCurrentAPIURL);
 
-        let objAPIParams = objThis.getAPIParams();
+        let objAPIParams = THIS.getAPIParams();
 
         // 설정된 영화 목록을 요청한다.
-        axios.get(strCurrentAPIURL
+        return axios.get(strCurrentAPIURL
                 , objAPIParams
                 ).then((response) => {
 
@@ -1030,7 +1073,7 @@ class MovieDataLoader
                 ).then(function(jsnMovieList)
                     {
                         // 넘겨받은 리스트 값이 있는 경우
-                        if(objThis.validateMovieList(jsnMovieList))
+                        if(THIS.validateMovieList(jsnMovieList))
                         {
                             let nFirst = 0;
                             let nTotalLength = 0;
@@ -1040,7 +1083,7 @@ class MovieDataLoader
 
                             for(nFirst = 0; nFirst < nTotalLength; nFirst++)
                             {
-                                let objBOData = objThis.convertMovieObject(jsnMovieList[nFirst]);
+                                let objBOData = THIS.convertMovieObject(jsnMovieList[nFirst]);
                                 
                                 if(nFirst === nTotalLength - 1)
                                 {
@@ -1050,18 +1093,33 @@ class MovieDataLoader
                                 arrMovieData.push(objBOData);
 
                                 // 포스터를 가져온다.
-                                objThis.getMoviePoster(objBOData);
+                                THIS.getMoviePoster(objBOData).then(
+                                    function(objResult)
+                                    {
+                                        if(objResult !=null)
+                                        {
+                                            console.log("poster!!!");
+
+                                            if(objResult.is_last_data)
+                                            {
+                                                THIS.forcedCallResolve(arrMovieData);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            THIS.forcedCallReject(objResult);
+                                        }
+
+                                    }
+                                );
+
+                                // Naver Code를 가져온다.
+                                //THIS.getNaverCode(objBOData);
                             }
-                            
-                            // 불러온 리스트를 저장한다.
-                            objThis.movie_data_list = arrMovieData;
                         }
-                        else
-                        {
-                            // 요청 성공 후 결과 값이 없는 경우 강제 완료한다.
-                            objThis.movie_data_list = [];
-                            objThis.forcedCallResolve(objThis.movie_data_list);
-                        }
+                        
+                        // 불러온 리스트를 반환한다.
+                        return arrMovieData;
                     }
                 );
     }
@@ -1071,12 +1129,12 @@ class MovieDataLoader
      */
     getKOBISListByGenre()
     {  
-        var objThis = this;                                // this 객체
+        const THIS = this;                                // this 객체
 
         let jsnMovieList = null;                           // API 후 넘겨 받은 JSON객체
         let strCurrentAPIURL = "";                         // API URL  
         
-        strCurrentAPIURL = objThis.KOBIS_API_MOVIE_LIST_URL;
+        strCurrentAPIURL = THIS.KOBIS_API_MOVIE_LIST_URL;
 
         console.log("Load URL by genre : " + strCurrentAPIURL);
 
@@ -1091,7 +1149,7 @@ class MovieDataLoader
         let fnCheckDataByGenre = function()
         {
             return axios.get(strCurrentAPIURL
-                    , objThis.getAPIParams()
+                    , THIS.getAPIParams()
                 ).then((response) => {
                         // 결과를 리턴 받은 경우
                         // 성공적으로 가져왔으면 포스터를 설정한다
@@ -1115,7 +1173,7 @@ class MovieDataLoader
                 ).then(function(jsnMovieList)
                     {
                         // 넘겨받은 리스트 값이 있는 경우
-                        if(objThis.validateMovieList(jsnMovieList))
+                        if(THIS.validateMovieList(jsnMovieList))
                         {
                             let nFirst = 0;
                             let nTotalLength = 0;
@@ -1127,21 +1185,21 @@ class MovieDataLoader
                             {
                                 let objBOData = null;
                                 let nCheckGenre = 0;
-                                let nPerPage = objThis.search_condition.item_per_page;
-                                let strGenre = objThis.search_condition.genre;
+                                let nPerPage = THIS.search_condition.item_per_page;
+                                let strGenre = THIS.search_condition.genre;
                                 
                                 // 대표 장르에 검색에 해당하는 장르가 있는 경우만 배열에 삽입한다.
                                 nCheckGenre = jsnMovieList[nFirst].genreAlt.indexOf(strGenre);
     
                                 if(nCheckGenre > -1)
                                 {
-                                    objBOData = objThis.convertMovieObject(jsnMovieList[nFirst]);
+                                    objBOData = THIS.convertMovieObject(jsnMovieList[nFirst]);
                                     
                                     arrMovieData.push(objBOData); 
                                     nListLength = arrMovieData.length;
                                     console.log("arrMovieData.length : " + arrMovieData.length);
                                     // 포스터를 가져온다.
-                                    objThis.getMoviePoster(objBOData);
+                                    THIS.getMoviePoster(objBOData);
                                     
                                     if(nListLength === nPerPage)
                                     {
@@ -1150,7 +1208,7 @@ class MovieDataLoader
                                 }
                             }
                             
-                            objThis.m_nGenreEndPageIndex = objThis.m_nGenreEndPageIndex + 1;
+                            THIS.m_nGenreEndPageIndex = THIS.m_nGenreEndPageIndex + 1;
                         }
                         else
                         {
@@ -1166,20 +1224,19 @@ class MovieDataLoader
             while(!bFinish)
             {
                 await fnCheckDataByGenre();
-                if(arrMovieData.length === objThis.search_condition.item_per_page)
+                if(arrMovieData.length === THIS.search_condition.item_per_page)
                 {
                     break;
                 }
             }
-
-            objThis.movie_data_list = arrMovieData;
+            
             // 검색한 페이지 간격을 기록한다.
-            let nPageCount = objThis.m_nGenreEndPageIndex - objThis.m_nGenreStartPageIndex;
-            console.log("nPageCount : " + nPageCount + ", GenreEndPageIndex : " + objThis.m_nGenreEndPageIndex);
-            objThis.m_arrPagingHistory.push(nPageCount);
+            let nPageCount = THIS.m_nGenreEndPageIndex - THIS.m_nGenreStartPageIndex;
+            console.log("nPageCount : " + nPageCount + ", GenreEndPageIndex : " + THIS.m_nGenreEndPageIndex);
+            THIS.m_arrPagingHistory.push(nPageCount);
             
             // 강제 완료 통보
-            objThis.forcedCallResolve(objThis.movie_data_list);
+            THIS.forcedCallResolve(arrMovieData);
         }
 
         fnMakeDataByGenre();
@@ -1212,59 +1269,64 @@ class MovieDataLoader
      */
     getListWithPoster()
     {
-        let objThis = this;
+        const THIS = this;
         let strErrorMsg = "";
+        let arrMovieData = null;
 
         // 3초 대기 후 결과가 있으면 반환하고 없으면 실패 메시지를 반환한다.
         return new Promise(function(successLoad, failedLoad)
             {
-                if(objThis.search_condition.section === objThis.BOXOFFICE
-                    || objThis.search_condition.section === objThis.MOVIE)
+                if(THIS.search_condition.section === THIS.BOXOFFICE
+                    || THIS.search_condition.section === THIS.MOVIE)
                 {
-                    objThis.onfulloadcomplete = successLoad;
-                    objThis.onfailedload = failedLoad;
+                    THIS.onfulloadcomplete = successLoad;
+                    THIS.onfailedload = failedLoad;
 
                     /* 로더 상태가 대기중인 경우 로딩중으로 변경하고
                      * 로딩 중인 경우 이전 호출로 Promise객체에 걸린 setTimeout을 해제하고 
                      * 강제 reject시킨다.
                     */
-                    if(objThis.status === objThis.WAITING)
-                    {
-                        // 로더 상태를 로딩중으로 변경한다.
-                        Object.defineProperty(objThis, "status"
-                                                    ,{value : objThis.LOADING
-                                                    , writable : false
-                                                    , configurable: true});
-                    }
-                    else
-                    {
-                        objThis.forcedCallReject("300");
-                    }
                     
+                    // 로더 상태를 로딩중으로 변경한다.
+                    Object.defineProperty(THIS, "status"
+                                            ,{value : THIS.LOADING
+                                            , writable : false
+                                            , configurable: true});
 
-                    objThis.search_condition.is_list = true;
+                    THIS.search_condition.is_list = true;
 
                     // 일반 영화 목록 요청 시 장르 검색이 있는 경우
-                    if(objThis.search_condition.section === objThis.MOVIE
-                        && objThis.search_condition.genre != null 
-                        && objThis.search_condition.genre !== "")
+                    if(THIS.search_condition.section === THIS.MOVIE
+                        && THIS.search_condition.genre != null 
+                        && THIS.search_condition.genre !== "")
                     {
-                        objThis.movie_data_list = [];
-                        objThis.getKOBISListByGenre();
+                        THIS.getKOBISListByGenre();
                     }
                     else
                     {
-                        objThis.getKOBISList();
+                        THIS.getKOBISList().then(
+                            function(arrReturnedMovieData)
+                            {
+                                if(arrReturnedMovieData != null)
+                                {
+                                    arrMovieData = arrReturnedMovieData;
+                                }
+                                else
+                                {
+                                    strErrorMsg = "300";
+                                }
+                            }
+                        );
                     }
                 }
                 
-                objThis.m_hdlPromiseTimer = setTimeout(function()
+                THIS.m_hdlPromiseTimer = setTimeout(function()
                     {
                         // 리스트 데이터가 있는 경우 성공
                         // 없는 경우 실패
-                        if(objThis.movie_data_list != null)
+                        if(arrMovieData != null)
                         {
-                            successLoad(objThis.movie_data_list);
+                            successLoad(arrMovieData);
                         }
                         else
                         {
@@ -1306,7 +1368,7 @@ class MovieDataLoader
      */
     getMovieInfoWithPoster(strMovieID)
     {
-        let objThis = this;
+        const THIS = this;
         let strErrorMsg = "";
 
         // 1.5초 후 결과가 있으면 반환하고 없으면 실패 메시지를 반환한다.
@@ -1314,24 +1376,24 @@ class MovieDataLoader
             {
                 if(strMovieID != null && strMovieID !== "")
                 {
-                    objThis.onfulloadcomplete = successLoad;
-                    objThis.onfailedload = failedLoad;
+                    THIS.onfulloadcomplete = successLoad;
+                    THIS.onfailedload = failedLoad;
 
-                    objThis.search_condition.is_list = false;
-                    objThis.getMovieInfo(strMovieID);
+                    THIS.search_condition.is_list = false;
+                    THIS.getMovieInfo(strMovieID);
                 }
                 else
                 {
                     strErrorMsg = "501";
                 }
 
-                objThis.m_hdlPromiseTimer = setTimeout(function()
+                THIS.m_hdlPromiseTimer = setTimeout(function()
                     {
                         // 데이터가 있는 경우 성공
                         // 없는 경우 실패
-                        if(objThis.movie_data != null)
+                        if(THIS.movie_data != null)
                         {
-                            successLoad(objThis.movie_data);
+                            successLoad(THIS.movie_data);
                         }
                         else
                         {
