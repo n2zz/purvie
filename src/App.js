@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MovieDataLoader from './loader/MovieDataLoader'
+import MovieDataLoader from './loader/MovieDataLoader';
 
 class App extends Component {
   static arrBoxofficeData = null;
@@ -98,7 +98,7 @@ class App extends Component {
   {
     let objThis = this;
 
-    this.ldrMovieData.search_condition.item_per_page = 7;
+    this.ldrMovieData.search_condition.item_per_page = 5;
     this.ldrMovieData.search_condition.is_daily = bDaily;
     this.ldrMovieData.search_condition.nation_section = this.ldrMovieData.ALL;
     //this.ldrMovieData.search_condition.product_year = "2017";
