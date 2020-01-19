@@ -7,10 +7,7 @@ const Menu1Link = () => {
     <div id="mdiv_sub_menu">
       <ul>
         <li>
-          <Link to="/menu1/boxoffice/daily" className="menu_link_sub_li_style">일별박스오피스</Link>
-        </li>
-        <li>
-          <Link to="/menu1/boxoffice/weekly" className="menu_link_sub_li_style">주간박스오피스</Link>
+          <Link to="/menu1/movie/코미디" className="menu_link_sub_li_style">코미디</Link>
         </li>
         <li>
           <Link to="/menu1/movie/액션" className="menu_link_sub_li_style">액션</Link>
@@ -23,9 +20,6 @@ const Menu1Link = () => {
         </li>
         <li>
           <Link to="/menu1/movie/로맨스" className="menu_link_sub_li_style">로맨스</Link>
-        </li>
-        <li>
-          <Link to="/menu1/movie/코미디" className="menu_link_sub_li_style">코미디</Link>
         </li>
         <li>
           <Link to="/menu1/movie/공포" className="menu_link_sub_li_style">공포/스릴러</Link>
