@@ -587,6 +587,7 @@ class MovieDataLoader
         objMovieData.product_year = "";             // 제작연도
         objMovieData.show_time = "";                // 상영시간
         objMovieData.open_year = "";                // 개봉연도
+        objMovieData.nations = "";                  // 국가
         objMovieData.genres_list = "";              // 장르(단건 Array형태)
         objMovieData.genres_text = "";              // 장르(문자열로 전부 나열)
         objMovieData.directors_list = "";           // 감독명(단건 Array형태)
@@ -679,6 +680,11 @@ class MovieDataLoader
             // 배우(모든 배우 나열)
             let strActors = this.convertJSONListToString(jsnData.actors, "peopleNm");
             Object.defineProperty(objMovieData, "actors_text", {value : strActors
+                                                        , writable : false
+                                                        , configurable: false});
+            // 배우(모든 배우 나열)
+            let strNations = this.convertJSONListToString(jsnData.nations, "nationNm");
+            Object.defineProperty(objMovieData, "nations", {value : strNations
                                                         , writable : false
                                                         , configurable: false});
             // 마지막 데이터 여부
@@ -853,10 +859,16 @@ class MovieDataLoader
         // 넘겨 받은 객체가 Null이 아닌 경우 포스터를 가져 온다.
         if(objMovieData != null)
         {
+            let strSearchTitle = objMovieData.movie_title;
+
+            if(strSearchTitle.indexOf('닥터 두리틀') > -1)
+            {
+                strSearchTitle = 'dolittle';
+            }
             return axios.get(THIS.MOVIEPOSTER_API_URL
                         , {params: { 
                                 api_key : THIS.MOVIEPOSTER_API_KEY
-                                , query : objMovieData.movie_title
+                                , query : strSearchTitle
                             }
                             ,timeout: 1000 // 1초 이내에 응답이 오지 않으면 에러로 간주
                         }
@@ -872,17 +884,18 @@ class MovieDataLoader
                                 let strStillcutURL = "";
                                 if(arrResult != null && arrResult.length > 0)
                                 {
-                                    if(arrResult[0].poster_path != null)
+                                    let objResult = arrResult[0];
+                                    if(objResult.poster_path != null)
                                     {
-                                        strPosterURL = THIS.MOVIEPOSTER_URL_PREFIX + arrResult[0].poster_path;
+                                        strPosterURL = THIS.MOVIEPOSTER_URL_PREFIX + objResult.poster_path;
                                     }
                                     else
                                     {
                                         strPosterURL = THIS.NO_POSTER_IMAGE_URL;
                                     } 
-                                    if(arrResult[0].backdrop_path != null)
+                                    if(objResult.backdrop_path != null)
                                     {
-                                        strStillcutURL = THIS.MOVIEPOSTER_URL_PREFIX + arrResult[0].backdrop_path;
+                                        strStillcutURL = THIS.MOVIEPOSTER_URL_PREFIX + objResult.backdrop_path;
                                     }
                                     else
                                     {
@@ -1041,7 +1054,6 @@ class MovieDataLoader
             strResultKey = "movieListResult";
             strListKey = "movieList";
         }
-        console.log("Load URL : " + strCurrentAPIURL);
 
         let objAPIParams = THIS.getAPIParams();
 
@@ -1054,18 +1066,23 @@ class MovieDataLoader
                         // 성공적으로 가져왔으면 포스터를 설정한다
                         if(response.status === 200)
                         {
-                            jsnMovieList = response.data[strResultKey][strListKey];
-
-                            if(jsnMovieList != null)
+                            if(response.data.faultInfo == null)
                             {
-                                let nTotalLength = jsnMovieList.length;
+                                jsnMovieList = response.data[strResultKey][strListKey];
 
-                                console.log("List Length : " + jsnMovieList.length);
-
-                                if(nTotalLength > 0)
+                                if(jsnMovieList != null)
                                 {
-                                    return jsnMovieList;
+                                    let nTotalLength = jsnMovieList.length;
+
+                                    if(nTotalLength > 0)
+                                    {
+                                        return jsnMovieList;
+                                    }
                                 }
+                            }
+                            else
+                            {
+                                THIS.forcedCallReject(response.data.faultInfo.message);
                             }
                         }
                         return jsnMovieList;
@@ -1098,7 +1115,6 @@ class MovieDataLoader
                                     {
                                         if(objResult !=null)
                                         {
-                                            console.log("poster!!!");
 
                                             if(objResult.is_last_data)
                                             {
@@ -1136,8 +1152,6 @@ class MovieDataLoader
         
         strCurrentAPIURL = THIS.KOBIS_API_MOVIE_LIST_URL;
 
-        console.log("Load URL by genre : " + strCurrentAPIURL);
-
         let bFinish = false;
         
         // 일반 영화 리스트를 요청 후 해당 장르 영화만 추출한다.
@@ -1155,17 +1169,23 @@ class MovieDataLoader
                         // 성공적으로 가져왔으면 포스터를 설정한다
                         if(response.status === 200)
                         {
-                            jsnMovieList = response.data.movieListResult.movieList; 
-                            console.log(response.data.movieListResult.movieList);
-    
-                            if(jsnMovieList != null)
+                            if(response.data.faultInfo == null)
                             {
-                                let nTotalLength = jsnMovieList.length;
+                                jsnMovieList = response.data.movieListResult.movieList; 
     
-                                if(nTotalLength > 0)
+                                if(jsnMovieList != null)
                                 {
-                                    return jsnMovieList;
+                                    let nTotalLength = jsnMovieList.length;
+        
+                                    if(nTotalLength > 0)
+                                    {
+                                        return jsnMovieList;
+                                    }
                                 }
+                            }
+                            else
+                            {
+                                THIS.forcedCallReject(response.data.faultInfo.message);
                             }
                         }
                         return jsnMovieList;
@@ -1197,7 +1217,7 @@ class MovieDataLoader
                                     
                                     arrMovieData.push(objBOData); 
                                     nListLength = arrMovieData.length;
-                                    console.log("arrMovieData.length : " + arrMovieData.length);
+
                                     // 포스터를 가져온다.
                                     THIS.getMoviePoster(objBOData);
                                     
@@ -1232,7 +1252,7 @@ class MovieDataLoader
             
             // 검색한 페이지 간격을 기록한다.
             let nPageCount = THIS.m_nGenreEndPageIndex - THIS.m_nGenreStartPageIndex;
-            console.log("nPageCount : " + nPageCount + ", GenreEndPageIndex : " + THIS.m_nGenreEndPageIndex);
+            
             THIS.m_arrPagingHistory.push(nPageCount);
             
             // 강제 완료 통보
