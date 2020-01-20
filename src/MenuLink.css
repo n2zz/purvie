@@ -20,7 +20,6 @@
 }
 
 ul {
-  padding-top: 0.7em;
   padding-left: 0.2em;
 }
 ul li {
@@ -29,18 +28,17 @@ ul li {
 }
 
 .menu_link_li_style {
-  color: #ddd;
-  font-size: 1em;
+  color: #666;
   font-family : "dovemayo";
-  transition: all 500ms;
+  transition: color 500ms;
 }
 .menu_link_li_style:visited {
   font-weight: bolder;
-  color: #fff;
+  color: #aaa;
 }
 .menu_link_li_style:hover {
   font-weight: bold;
-  color: #666;
+  color: #ddd;
 }
 .menu_link_li_style:active {
   font-size: 1.1em;
@@ -51,4 +49,8 @@ ul li {
   font-size:1em;
   padding-left: 0;
   font-family : "Malgun Gothic";
+}
+
+* {
+  user-select: none;
 }

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route} from "react-router-dom";
 import Menu1Link from "./Menu1Link";
 import App from "./App";
-
-import "./Menu.css";
 
 class Menu1 extends Component {
   render() {
