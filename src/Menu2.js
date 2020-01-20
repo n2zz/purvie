@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import movie from "./images/movie.jpg";
 import MovieDataLoader from './loader/MovieDataLoader';
 import "./Menu.css"
 
@@ -38,7 +37,7 @@ class Menu2 extends Component {
         // movie actor
         let divActor = document.createElement("div");
         divActor.className = "actor_div";
-        divActor.innerHTML = objBOData.open_year;
+        divActor.innerHTML = objBOData.open_year.replace(/-/gi, '.');
         // review
         let divReview1 = document.createElement("div");
         divReview1.className = "review_div";
@@ -59,10 +58,10 @@ class Menu2 extends Component {
         divMovie.id = "rdiv";
         divImage.id = "Ldiv";
         divInfo.id = "Rdiv";
-
-        divMovie.innerHTML = divMovie.innerHTML;
+        
         divTest.appendChild(divMovie);
       }
+
     }
   }
 

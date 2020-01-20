@@ -1,86 +1,66 @@
 @font-face {font-family: Typo_SsangmunDongB; src: url('./fonts/Typo_SsangmunDongB.ttf');}
 @font-face {font-family: dovemayo; src: url('./fonts/dovemayo.otf');}
 @font-face {font-family: NanumSquare_acR; src: url('./fonts/NanumSquare_acR.ttf');}
+@font-face {font-family: NanumSquare_acB; src: url('./fonts/NanumSquare_acB.ttf');}
+
+body {
+    font-size: 1.5vw;
+    transition: all 500ms;
+}
+
+/* Menu.js properties*/
+.menu_header
+{
+    width: 100%;
+    height: 9vw;
+    padding-top: 4vw;
+    margin: auto;   
+}
 
 .menu_head {
-    width: 180px;
-    position : relative;
-    padding-top: 10px;
-    padding-left: 2%;
+    width: 22%;
+    height: 100%;
     float: left;
 }
+
 .menu_icon {
-    float:left;
+    float: left;
+    padding-left: 5vw;
+}
+.img_title_icon {
+    width: 4.5vw;
+    height: 4.5vw;
     position : relative;
 }
 .menu_title {
     color : #ffffff;
-    font-size: 2em;
-    padding-top: 23px;
+    font-size: 3vw;
+    padding-top: 0.5vw;
     font-weight: bolder;
     font-family : "dovemayo";
     position : relative;
+    float: left;
 }
+
+
 .menu1 {
-    float: left;
-    padding-top: 12px;
-}
-
-.img_title_icon {
-    text-align:left;
-    padding-top:1em;
-    width:2.8em;
-    height:2.8em;
-    position : relative;
-}
-  
-#rdiv {
-    padding: 2% 2% 2%;
-    margin: 1% 2% 1%;
-    box-shadow: 0px 0px 10px 2px #222;
-    color: white;
-    height: 250px;
-    overflow: hidden;
-    white-space: nowrap;
-    clear: both;
-}
-#Ldiv {
+    width: 47%;
+    height: 100%;
     float: left;
 }
-#Rdiv {
+
+
+.search_group
+{
+    width: 30%;
+    height: 100%;
     float: left;
-    overflow: hidden;
-    margin: 0% 3% 0%;
 }
-
-.movie_image {
-    width: 170px;
-    box-shadow: 0px 0px 15px 3px #111;
-}
-.title_div {
-    font-size: 27px;
-    white-space: nowrap;
-    font-family: "Typo_SsangmunDongB";
-}
-.actor_div {
-    font-size: 14px;
-    font-family: "NanumSquare_acR";
-    margin: 2px 0px 30px;
-}
-.review_div {
-    font-family: "dovemayo";
-    color: #ddd;
-    margin-top: 1%;
-}
-.review_div:hover {
-    font-weight: bold;
-}
-
 .search {
-    width: 200px;
-    height: 27px;
-    margin-top: 35px;
-    margin-right: 3%;
+    width: 23vw;
+    height: 3vw;
+    margin-top: 3px;
+    margin-right: 15%;
     box-shadow: 0px 0px 7px 1px #666;
     border-radius: 12px;
     float: right;
@@ -94,4 +74,85 @@
     border: none;
     outline: none;
     color: #ddd;
+    font-size: 1.5vw;
+}
+
+/* Menu2.js properties*/
+#rdiv {
+    height: 20vw;
+    padding: 1vw 1vw 1vw;
+    margin: 1vw 4vw 2vw;
+    box-shadow: 0px 0px 10px 2px #222;
+    color: white;
+    white-space: nowrap;
+    clear: both;
+}
+#Ldiv {
+    float: left;
+}
+#Rdiv {
+    width: 50vw;
+    float: left;
+    margin: 1vw 3vw 0vw;
+    overflow-x: scroll;
+}
+
+.movie_image {
+    height: 20vw;
+    box-shadow: 0px 0px 15px 3px #111;
+}
+
+.title_div {
+    font-size: 2.5vw;
+    white-space: nowrap;
+    font-family: "Typo_SsangmunDongB";
+    position: relative;
+    overflow-x: scroll;
+}
+.actor_div {
+    font-size: 1vw;
+    font-family: "NanumSquare_acR";
+    margin: 0.2vw 0vw 2vw;
+    position: relative;
+}
+.review_div {
+    font-family: "dovemayo";
+    color: #eee;
+    margin-bottom: 1vw;
+    position: relative;
+    clear: both;
+}
+.review_div:hover {
+    font-weight: bold;
+}
+
+@media (max-width: 500px) {
+    body { font-size: 2.7vw; transition: all 500ms; }
+    .menu_header { padding-top: 8%;}
+    .menu_head { width: 33%; height: 12vw; }
+    .img_title_icon { width: 7vw; height: 7vw; }
+    .menu_title { font-size: 5vw; padding-top: 4%; }
+    .search_group { display: none; }
+    #rdiv { width: 90vw; min-height: 40vw; margin-top: 3%; }
+    #Rdiv { margin: 3% 5% 2%; }
+    .movie_image { min-height: 40vw; }
+    .title_div { font-size: 17px; }
+    .review_div { font-size: 12px; }
+}
+
+@media (min-width: 900px) {
+    body { font-size: 12px; transition: all 500ms; }
+    .menu_header { width: 900px; height: 80px; padding-top: 36px; }
+    .menu_head { width: 200px; }
+    .menu_title { font-size: 27px;}
+    .menu_icon { padding-left: 45px;}
+    .img_title_icon { width: 40px; height: 40px; }
+    .menu1 { width: 420px; }
+    .search_group { width: 270px; }
+    .search { width: 210px; height: 27px; }
+    .search_input { font-size: 13px;}
+    #rdiv { width: 810px; max-height: 200px; margin: auto; }
+    #Rdiv { width: 600px; margin: 10px 20px 10px; }
+    .movie_image { max-height: 200px; }
+    .title_div { font-size: 22px; }
 }
