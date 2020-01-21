@@ -1,3 +1,8 @@
+@font-face {font-family: Typo_SsangmunDongB; src: url('./fonts/Typo_SsangmunDongB.ttf');}
+@font-face {font-family: dovemayo; src: url('./fonts/dovemayo.otf');}
+@font-face {font-family: NanumSquare_acR; src: url('./fonts/NanumSquare_acR.ttf');}
+@font-face {font-family: NanumSquare_acB; src: url('./fonts/NanumSquare_acB.ttf');}
+
 .popup {
     position: fixed;
     width: 100%;
@@ -10,12 +15,107 @@
     background-color: rgba(0,0,0, 0.5);
   }
   
-  .popup_inner {
-    position: absolute;
-    left: 25%;
-    right: 25%;
-    top: 25%;
-    bottom: 25%;
-    margin: auto;
-    background: white;
-  }
+.popup_inner {
+  width: 60vw;
+  height: 65vw;
+  margin: 20vw auto;
+  background-color: rgba(0,0,0, 0.6);
+  color: white;
+  box-shadow: 0 0 15px 7px rgba(150, 150, 150, 0.3);
+}
+
+.context {
+  clear: both;
+}
+
+.movie_info {
+  float: left;
+  margin: 2vw 2vw 0vw;
+  font-family: "NanumSquare_acB";
+  font-size: 2vw;
+  color: #ddd;
+}
+.close_button {
+  float: right;
+}
+.button {
+  background-color: transparent;
+  border-color: transparent;
+  color: white;
+  margin: 1.4vw 1.2vw 0vw;
+  font-family: "dovemayo";
+  cursor: pointer;
+  outline: 0;
+}
+.image {
+  width: 25vw;
+  margin: 1.5vw;
+  margin-right: 2.2vw;
+  float: left;
+}
+.info {
+  font-family: "NanumSquare_acR";
+  font-size: 2.2vw;
+  padding-top: 2vw;
+}
+.title {
+  font-family: "NanumSquare_acB";
+  font-size: 4vw;
+  padding-bottom: 3.5vw;
+}
+.open {
+  font-family: "NanumSquare_acB";
+  padding: 0.5vw;
+  color: #eee;
+}
+.open_year {
+  font-size: 1.8vw;
+  padding-bottom: 1.5vw;
+  color: #ccc;
+}
+.actor {
+  font-family: "NanumSquare_acB";
+  padding: 0.5vw;
+  color: #eee;
+}
+.actor_text {
+  font-size: 2vw;
+  padding-bottom: 1.5vw;
+  color: #ccc;
+}
+.genres {
+  font-family: "NanumSquare_acB";
+  padding: 0.5vw;
+  color: #eee;
+}
+.genres_text {
+  font-size: 2vw;
+  padding-bottom: 1.5vw;
+  color: #ccc;
+}
+.nations {
+  font-family: "NanumSquare_acB";
+  padding: 0.5vw;
+  color: #eee;
+}
+.nations_text {
+  font-size: 2vw;
+  padding-bottom: 1.5vw;
+  color: #ccc;
+}
+
+.plot {
+  font-family: "NanumSquare_acB";
+  font-size: 2vw;
+  clear: both;
+  margin: 2vw;
+  color: #eee;
+}
+
+@media (max-width: 500px) {
+  .popup_inner { width: 300px; height: 325px; }
+}
+
+@media (min-width: 900px) {
+
+}

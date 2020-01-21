@@ -12,50 +12,53 @@ class MovieDetailPopup extends Component {
         <div className="popup_inner" id="div_movie_detail">
             {/* 영화 정보 및 닫기 버튼 */}
             <div>
-              <div>
+              <div className="movie_info">
                 영화정보
               </div>
-              <div>
-                <button onClick={this.props.closePopup}>close me</button>
+              <div className="close_button">
+                <button className="button" onClick={this.props.closePopup}>X</button>
               </div>
             </div>
             {/* 포스터 및 정보들 */}
-            <div>
+            <div className="context">
               {/* 포스터 */}
               <div>
-                <img width="160px" height="240px" src={this.props.movie_data.poster_url}/>
+                <img className="image" src={this.props.movie_data.poster_url}/>
               </div>
               {/* 상세정보 */}
-              <div>
+              <div className="info">
+                <div className="title">
+                  {this.props.movie_data.movie_title}
+                </div>
                 <div>
-                  <div>
-                    {this.props.movie_data.movie_title}
+                  <div className="open">
+                    개봉일
                   </div>
-                  <div>
-                    {this.props.movie_data.open_year}
+                  <div className="open_year">
+                    {this.props.movie_data.open_year.replace(/-/gi, '.')}
                   </div>
                 </div>
                 <div>
-                  <div>
+                  <div className="actor">
                     출연진
                   </div>
-                  <div>
+                  <div className="actor_text">
                     {this.props.movie_data.ators_text}
                   </div>
                 </div>
                 <div>
-                  <div>
+                  <div className="genres">
                     장르
                   </div>
-                  <div>
+                  <div className="genres_text">
                     {this.props.movie_data.genres_text}
                   </div>
                 </div>
                 <div>
-                  <div>
+                  <div className="nations">
                     국가
                   </div>
-                  <div>
+                  <div className="nations_text">
                     {this.props.movie_data.nations}
                   </div>
                 </div>
@@ -63,7 +66,7 @@ class MovieDetailPopup extends Component {
             </div>
             {/* 줄거리 */}
             <div>
-              <div>
+              <div className="plot">
                 줄거리
               </div>
               <div>

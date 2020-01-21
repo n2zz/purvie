@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./MenuLink.css";
 
 const Menu1Link = () => {
@@ -7,22 +7,22 @@ const Menu1Link = () => {
     <div id="mdiv_sub_menu">
       <ul>
         <li>
-          <Link to="/menu1/movie/코미디" className="menu_link_sub_li_style">코미디</Link>
+          <NavLink to="/menu1/movie/코미디" className="menu_link_sub_li_style" activeClassName="active">코미디</NavLink>
         </li>
         <li>
-          <Link to="/menu1/movie/액션" className="menu_link_sub_li_style">액션</Link>
+          <NavLink to="/menu1/movie/액션" className="menu_link_sub_li_style" activeClassName="active">액션</NavLink>
         </li>
         <li>
-          <Link to="/menu1/movie/판타지" className="menu_link_sub_li_style">SF/판타지</Link>
+          <NavLink to="/menu1/movie/판타지" className="menu_link_sub_li_style" activeClassName="active">SF/판타지</NavLink>
         </li>
         <li>
-          <Link to="/menu1/movie/애니메이션" className="menu_link_sub_li_style">애니메이션</Link>
+          <NavLink to="/menu1/movie/애니메이션" className="menu_link_sub_li_style" activeClassName="active">애니메이션</NavLink>
         </li>
         <li>
-          <Link to="/menu1/movie/로맨스" className="menu_link_sub_li_style">로맨스</Link>
+          <NavLink to="/menu1/movie/로맨스" className="menu_link_sub_li_style" activeClassName="active">로맨스</NavLink>
         </li>
         <li>
-          <Link to="/menu1/movie/공포" className="menu_link_sub_li_style">공포/스릴러</Link>
+          <NavLink to="/menu1/movie/공포" className="menu_link_sub_li_style" activeClassName="active">공포</NavLink>
         </li>
       </ul>
     </div>

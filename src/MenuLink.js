@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./MenuLink.css";
 
 const MenuLink = () => {
@@ -7,10 +7,10 @@ const MenuLink = () => {
     <div id="mdiv">
       <ul>
         <li>
-          <Link to="/menu1" className="menu_link_li_style">HOME</Link>
+          <NavLink to="/menu1" className="menu_link_li_style" activeClassName="active">HOME</NavLink>
         </li>
         <li>
-          <Link to="/menu2" className="menu_link_li_style">REVIEW</Link>
+          <NavLink to="/menu2" className="menu_link_li_style" activeClassName="active">REVIEW</NavLink>
         </li>
       </ul>
     </div>

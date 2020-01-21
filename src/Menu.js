@@ -6,12 +6,12 @@ import App from "./App";
 import Menu1 from "./Menu1";
 import Menu2 from "./Menu2";
 import MenuLink from "./MenuLink";
-import MainStillcutSlider from "./MainStillcutSlider"
 import "./Menu.css";
 
 const title = "PURVIE";
 
 class Menu extends Component {
+
   render() {
     return (
         <div>
@@ -45,7 +45,6 @@ class Menu extends Component {
                   <div class="search_close"></div>
                 </div>
               </div>
-              <MainStillcutSlider/>
               <div>
                 <Switch> 
                   <Route exact path="/"component={Menu1} />

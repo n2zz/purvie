@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MovieDataLoader from './loader/MovieDataLoader';
 import MovieDetailPopup from './MovieDetailPopup';
 import './App.css'
+import { trackPromise } from 'react-promise-tracker';
 
 class App extends Component {
   static arrBoxofficeData = null;
@@ -59,9 +60,9 @@ class App extends Component {
         let strMovieID = arrBoxOfficeData[nFirst].movie_id;
 
         // 스타일 적용
-        divMovie.style.float = "left";
-        imgPoster.style.width = '160px';
-        imgPoster.style.height = '250px';
+        divMovie.className = "movie_div";
+        imgPoster.className = "img_poster"
+
         imgPoster.src = arrBoxOfficeData[nFirst].poster_url;
 
         divMovie.addEventListener("click", function(){THIS.getInfo(strMovieID);});
@@ -92,7 +93,7 @@ class App extends Component {
     let objThis = this;
     let bAddList = false;               // 같은 장르 추가 요청 여부
 
-    this.ldrMovieData.search_condition.item_per_page = 6;
+    this.ldrMovieData.search_condition.item_per_page = 5;
     this.ldrMovieData.search_condition.current_page = this.current_page;
     this.ldrMovieData.search_condition.nation_section = this.ldrMovieData.ALL;
     
@@ -107,6 +108,7 @@ class App extends Component {
       bAddList = true;
     }*/
 
+    trackPromise(
     this.ldrMovieData.getMovieListWithPoster().then(
         function(arrBOData)
         {
@@ -119,7 +121,7 @@ class App extends Component {
         {
           console.log("Error Massage : " + e);
         }
-    );
+    ));
   }
 
   /**
@@ -159,6 +161,7 @@ class App extends Component {
   {
     const THIS = this;
     
+    trackPromise(
     THIS.ldrMovieData.getMovieInfoWithPoster(strMovieID).then(
       function(objMovieData)
       {
@@ -168,7 +171,7 @@ class App extends Component {
       {
         console.log("Error Massage : " + e);
       }
-    );
+    ));
   }
 
   getList()
