@@ -51,14 +51,6 @@ class Menu extends Component {
               </div>
             </div>
           </div>
-          <MainStillcutSlider />
-          <div>
-            <Switch>
-              <Route exact path="/" component={Menu1} />
-              <Route path="/menu1" component={Menu1} />
-              <Route path="/menu2" component={Menu2} />
-            </Switch>
-          </div>
         </BrowserRouter>
       </div>
     );
