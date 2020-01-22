@@ -1,46 +1,18 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
 import MovieDataLoader from './loader/MovieDataLoader'
-import "./App.css"
-
-class StillcutUnit extends Component {
-
-    render() {
-        let strStillcutURL = this.props.stillcut_url;
-        let strClassName = "imgStill";
-        return (
-            <div>
-                <img className={strClassName} src={strStillcutURL} alt=""/>
-            </div>
-        ) 
-    }
-}
 
 class MainStillcutSlider extends Component {
     constructor(props)
     {
         super(props);
         this.ldrMovieData = new MovieDataLoader();
-        this.state = {
-           slider_data : []
-        };
-    }
-
-    /**
-     * 슬라이더에 노출될 이미지 추가
-     * @param {} strImageURL 
-     */
-    addSliderData(arrSliderData)
-    {
-        this.setState({
-            slider_data:arrSliderData
-          });
     }
     
     /**
    * 박스오피스 목록을 가져온다.
    */
-    getStillcutList()
+    getBoxofficeList()
     {
         const THIS = this;
         THIS.ldrMovieData.search_condition.item_per_page = 5;
@@ -52,7 +24,30 @@ class MainStillcutSlider extends Component {
             {
                 if(arrBOData != null)
                 {
-                    THIS.addSliderData(arrBOData);
+                    let objSlider = document.getElementById("bo_stillcut_slider");
+                    arrBOData.forEach(
+                        function(objMovieData, nIndex)
+                        {
+                            console.log("insert stillcut : " + nIndex);
+                            let divStillcut = document.getElementById("div_stillcut_" + nIndex);
+                            
+                            if(divStillcut != null)
+                            {
+                                console.log("div_stillcut_" + nIndex + " : " + objMovieData.stillcut_url);
+                                let imgStillcut = new Image();
+
+                                imgStillcut.src = objMovieData.stillcut_url;
+                                
+                                /*
+                                imgStillcut.style.width = '1000px';
+                                imgStillcut.style.height = '500px';*/
+
+                                divStillcut.appendChild(imgStillcut);
+                            }
+                        }
+                    );
+
+                    console.log(objSlider);
                 }
             }
         ).catch(function(e)
@@ -63,7 +58,7 @@ class MainStillcutSlider extends Component {
     }
 
     componentDidMount() {
-        this.getStillcutList();
+        this.getBoxofficeList();
     }
 
     render() {
@@ -79,20 +74,18 @@ class MainStillcutSlider extends Component {
 
         return (
         <>
-        <div className = "stillcut">
             <link rel="stylesheet" type="text/css" charset="UTF-8"
             href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"/>
             <link rel="stylesheet" type="text/css"
             href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"/>
             <Slider {...settings} id="bo_stillcut_slider">
-                {this.state.slider_data.map(function(objSliderData, i)
-                    {
-                        return <StillcutUnit stillcut_url={objSliderData.stillcut_url} key="{i}"/>;
-                    })
-                }
+                <div id="div_stillcut_0"></div>
+                <div id="div_stillcut_1"></div>
+                <div id="div_stillcut_2"></div>
+                <div id="div_stillcut_3"></div>
+                <div id="div_stillcut_4"></div>
             </Slider>
-        </div>
-        </>
+            </>
         );
     }
 }
