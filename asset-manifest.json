@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/purvie/static/css/main.099d3a8b.chunk.css",
-    "main.js": "/purvie/static/js/main.0735a621.chunk.js",
-    "main.js.map": "/purvie/static/js/main.0735a621.chunk.js.map",
-    "runtime-main.js": "/purvie/static/js/runtime-main.cb693675.js",
-    "runtime-main.js.map": "/purvie/static/js/runtime-main.cb693675.js.map",
-    "static/js/2.f29e21c0.chunk.js": "/purvie/static/js/2.f29e21c0.chunk.js",
-    "static/js/2.f29e21c0.chunk.js.map": "/purvie/static/js/2.f29e21c0.chunk.js.map",
-    "index.html": "/purvie/index.html",
-    "precache-manifest.d3ca66a4e05bf4b95dace1af3df6209b.js": "/purvie/precache-manifest.d3ca66a4e05bf4b95dace1af3df6209b.js",
-    "service-worker.js": "/purvie/service-worker.js",
-    "static/css/main.099d3a8b.chunk.css.map": "/purvie/static/css/main.099d3a8b.chunk.css.map",
-    "static/js/2.f29e21c0.chunk.js.LICENSE": "/purvie/static/js/2.f29e21c0.chunk.js.LICENSE",
-    "static/media/MovieDetailPopup.css": "/purvie/static/media/dovemayo.6b11a4c3.otf",
-    "static/media/logo-square.png": "/purvie/static/media/logo-square.e5a5e9c2.png"
+    "main.css": "/purvie_deploy/static/css/main.c173b8cd.chunk.css",
+    "main.js": "/purvie_deploy/static/js/main.cbc1172d.chunk.js",
+    "main.js.map": "/purvie_deploy/static/js/main.cbc1172d.chunk.js.map",
+    "runtime-main.js": "/purvie_deploy/static/js/runtime-main.218edc21.js",
+    "runtime-main.js.map": "/purvie_deploy/static/js/runtime-main.218edc21.js.map",
+    "static/js/2.f29e21c0.chunk.js": "/purvie_deploy/static/js/2.f29e21c0.chunk.js",
+    "static/js/2.f29e21c0.chunk.js.map": "/purvie_deploy/static/js/2.f29e21c0.chunk.js.map",
+    "index.html": "/purvie_deploy/index.html",
+    "precache-manifest.fd4e7bb21c898a98379e5f589b25b8dc.js": "/purvie_deploy/precache-manifest.fd4e7bb21c898a98379e5f589b25b8dc.js",
+    "service-worker.js": "/purvie_deploy/service-worker.js",
+    "static/css/main.c173b8cd.chunk.css.map": "/purvie_deploy/static/css/main.c173b8cd.chunk.css.map",
+    "static/js/2.f29e21c0.chunk.js.LICENSE": "/purvie_deploy/static/js/2.f29e21c0.chunk.js.LICENSE",
+    "static/media/MovieDetailPopup.css": "/purvie_deploy/static/media/dovemayo.6b11a4c3.otf",
+    "static/media/logo-square.png": "/purvie_deploy/static/media/logo-square.e5a5e9c2.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.cb693675.js",
+    "static/js/runtime-main.218edc21.js",
     "static/js/2.f29e21c0.chunk.js",
-    "static/css/main.099d3a8b.chunk.css",
-    "static/js/main.0735a621.chunk.js"
+    "static/css/main.c173b8cd.chunk.css",
+    "static/js/main.cbc1172d.chunk.js"
   ]
 }
