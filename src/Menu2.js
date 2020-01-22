@@ -35,20 +35,27 @@ class Menu2 extends Component {
         divActor.className = "actor_div";
         divActor.innerHTML = objBOData.open_year.replace(/-/gi, ".");
         // review
-        let divReview1 = document.createElement("div");
-        divReview1.className = "review_div";
-        divReview1.innerHTML = '"리뷰1 한국인의 어쩌고 저쩌고"';
-        let divReview2 = document.createElement("div");
-        divReview2.className = "review_div";
-        divReview2.innerHTML = '"리뷰2 한반도 어쩌고 저쩌고"';
+        let divReview = document.createElement("div");
+        let reviewTitle = document.createElement("div");
+        let reviewId = document.createElement("div");
+        let reviewContext = document.createElement("div");
+        divReview.className = "review_div";
+        reviewTitle.className = "review_title";
+        reviewId.className = "review_id";
+        reviewContext.className = "review_context";
+        reviewTitle.innerHTML = '"리뷰1 한국인의 어쩌고 저쩌고"';
+        reviewId.innerHTML = 'abcd****';
+        reviewContext.innerHTML = 'etc';
 
         divImage.appendChild(imgPoster);
         divMovie.appendChild(divImage);
+        divReview.appendChild(reviewTitle);
+        divReview.appendChild(reviewId);
+        divReview.appendChild(reviewContext);
 
         divInfo.appendChild(divTitle);
         divInfo.appendChild(divActor);
-        divInfo.appendChild(divReview1);
-        divInfo.appendChild(divReview2);
+        divInfo.appendChild(divReview);
         divMovie.appendChild(divInfo);
 
         divMovie.id = "rdiv";

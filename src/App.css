@@ -28,11 +28,44 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/*img Slider*/
+.stillcut {
+  clear: both;
+  width: 90vw;
+  height: 53vw;
+  border-radius: 7vw;
+  margin: auto;
+}
+.imgStill {
+  width: 90vw;
+  border-radius: 2vw;
+  margin: auto;
+}
+.stillButton {
+  float: left;
+}
+
+/*movies by genre*/
+.movie_div {
+  width: 90vw;
+  margin: auto;
+}
+.img_poster {
+  width: 16vw;
+  height: 24vw;
+  float: left;
+  margin: 1%;
+  overflow-x: scroll;
+  box-shadow: 0px 0px 10px 3px #171717;
+}
+
+@media (max-width: 500px) {
+  .img_poster { width: 28vw; height: 42vw; }
+}
+
+@media (min-width: 900px) {
+  .stillcut { width: 810px;  height: 480px; }
+  .imgStill { width: 810px; }
+  .movie_div { width: 810px; }
+  .img_poster { width: 145px; height: 215px; }
 }

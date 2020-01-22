@@ -91,9 +91,10 @@ body {
     float: left;
 }
 #Rdiv {
-    width: 50vw;
+    width: 70vw;
+    height: 95%;
     float: left;
-    margin: 1vw 3vw 0vw;
+    padding: 1vw 3vw 1vw;
     overflow-x: scroll;
 }
 
@@ -103,27 +104,49 @@ body {
 }
 
 .title_div {
+    width: 100%;
+    height: 20%;
     font-size: 2.5vw;
     white-space: nowrap;
     font-family: "Typo_SsangmunDongB";
     position: relative;
-    overflow-x: scroll;
 }
 .actor_div {
-    font-size: 1vw;
+    width: 100%;
+    height: 20%;
+    font-size: 1.3vw;
     font-family: "NanumSquare_acR";
-    margin: 0.2vw 0vw 2vw;
     position: relative;
 }
 .review_div {
+    width: 100%;
+    height: 70%;
     font-family: "dovemayo";
-    color: #eee;
-    margin-bottom: 1vw;
+    font-size: 1.6vw;
+    color: #fff;
     position: relative;
     clear: both;
 }
-.review_div:hover {
+.review_title {
+    float: left;
+    height: 15%;
+}
+.review_title:hover {
     font-weight: bold;
+}
+.review_id {
+    height: 15%;
+    font-size: 1vw;
+    color: #bbb;
+    margin-top: 0.5vw;
+    margin-left: 1.5vw;
+    float: left;
+}
+.review_context {
+    clear: both;
+    color: #ddd;
+    font-size: 1.5vw;
+    margin-left: 0.5vw;
 }
 
 @media (max-width: 500px) {
@@ -134,10 +157,12 @@ body {
     .menu_title { font-size: 5vw; padding-top: 4%; }
     .search_group { display: none; }
     #rdiv { width: 90vw; min-height: 40vw; margin-top: 3%; }
-    #Rdiv { margin: 3% 5% 2%; }
+    #Rdiv { margin: 1% 1% 1%; width: 50vw; }
     .movie_image { min-height: 40vw; }
-    .title_div { font-size: 17px; }
-    .review_div { font-size: 12px; }
+    .title_div { font-size: 3.5vw; }
+    .review_title { height: 1vw; }
+    .review_id { font-size: 1vw; }
+    .review_context { font-size: 7px;}
 }
 
 @media (min-width: 900px) {
@@ -152,7 +177,10 @@ body {
     .search { width: 210px; height: 27px; }
     .search_input { font-size: 13px;}
     #rdiv { width: 810px; max-height: 200px; margin: auto; }
-    #Rdiv { width: 600px; margin: 10px 20px 10px; }
+    #Rdiv { width: 500px; padding: 9px; }
     .movie_image { max-height: 200px; }
     .title_div { font-size: 22px; }
+    .review_title { font-size: 14px; }
+    .review_id { font-size: 9px; }
+    .review_context { font-size: 14px;}
 }
