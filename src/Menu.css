@@ -105,27 +105,33 @@ body {
 
 .title_div {
     width: 100%;
-    height: 20%;
+    height: 3.5%;
     font-size: 2.5vw;
     white-space: nowrap;
     font-family: "Typo_SsangmunDongB";
-    position: relative;
+    position: absolute;
+    padding-top: 1.0vw;
+    z-index: 10;
 }
 .actor_div {
-    width: 100%;
-    height: 20%;
-    font-size: 1.3vw;
+    height: 15%;
+    font-size: 0.5vw;
     font-family: "NanumSquare_acR";
-    position: relative;
+    position: sticky;
+    float: left;
+    padding-right: 0.8vw;
 }
 .review_div {
     width: 100%;
-    height: 70%;
+    height: 45%;
     font-family: "dovemayo";
     font-size: 1.6vw;
     color: #fff;
     position: relative;
     clear: both;
+    padding-top: 3.0vw;
+    z-index: 1;
+    overflow: scroll;
 }
 .review_title {
     float: left;
@@ -147,6 +153,7 @@ body {
     color: #ddd;
     font-size: 1.5vw;
     margin-left: 0.5vw;
+    white-space: pre-line;
 }
 
 @media (max-width: 500px) {
