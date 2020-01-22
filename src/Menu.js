@@ -51,8 +51,9 @@ class Menu extends Component {
                 </Switch>
               </div>
             </div>
-          </BrowserRouter>
-        </div>
+          </div>
+        </BrowserRouter>
+      </div>
     );
   }
 }
