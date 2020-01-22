@@ -26,6 +26,7 @@ export default (subject, year) => {
       typeof response.data.items[0]["link"] !== "undefined"
     ) {
       const link = response.data.items[0]["link"];
+      console.log(link);
       return link;
     }
   });

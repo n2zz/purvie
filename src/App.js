@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import MovieDataLoader from './loader/MovieDataLoader';
-import MovieDetailPopup from './MovieDetailPopup';
-import './App.css'
-import { trackPromise } from 'react-promise-tracker';
+import React, { Component } from "react";
+import MovieDataLoader from "./loader/MovieDataLoader";
+import MovieDetailPopup from "./MovieDetailPopup";
+import "./App.css";
+import GetNaverAPISearch from "./loader/GetNaverAPISearch";
 
 class App extends Component {
   static arrBoxofficeData = null;
@@ -54,7 +54,7 @@ class App extends Component {
 
         // 스타일 적용
         divMovie.className = "movie_div";
-        imgPoster.className = "img_poster"
+        imgPoster.className = "img_poster";
 
         imgPoster.src = arrBoxOfficeData[nFirst].poster_url;
 
