@@ -8,9 +8,9 @@
 }
 
 #mdiv_sub_menu {
-  overflow-y: hidden;
   white-space: nowrap;
   padding-left: 5%;
+  margin: auto;
   clear: both;
 }
 

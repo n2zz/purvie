@@ -149,6 +149,12 @@ body {
     margin-left: 0.5vw;
 }
 
+.loading {
+    position: fixed;
+    top: 40vw;
+    left: 48vw;
+}
+
 @media (max-width: 500px) {
     body { font-size: 2.7vw; transition: all 500ms; }
     .menu_header { padding-top: 8%;}
@@ -183,4 +189,5 @@ body {
     .review_title { font-size: 14px; }
     .review_id { font-size: 9px; }
     .review_context { font-size: 14px;}
+    .loading { top: 360px; }
 }

@@ -5,10 +5,12 @@ import MainStillcutSlider from "./MainStillcutSlider"
 import App from "./App";
 import { usePromiseTracker } from "react-promise-tracker";
 import Loader from 'react-loader-spinner';
+import "./Menu.css";
 
-const LoadingIndicator = props => {
-    const { promiseInProgress } = usePromiseTracker();
-    return promiseInProgress &&
+export const LoadingIndicator = (props) => {
+    const { promiseInProgress } = usePromiseTracker({ area: props.area });
+    return (
+       promiseInProgress && (
         <div style={{
           width: "100%",
           height: "100",
@@ -17,8 +19,10 @@ const LoadingIndicator = props => {
           alignItems: "center"
         }}
         >
-          <Loader type="ThreeDots" color="#777" height="50" width="50" />
+          <Loader type="ThreeDots" color="rgba(255,255,255,0.7)" height='50' width='50' />
         </div>
+       )
+    );
 };
 
 
@@ -33,8 +37,11 @@ class Menu1 extends Component {
             <Route exact path="/menu1" component={App} />
             <Route path="/menu1/boxoffice/:genre" component={App} />
             <Route path="/menu1/movie/:genre" component={App} />
-            <LoadingIndicator/>
+            <LoadingIndicator area="genre-area"/>
         </BrowserRouter>
+        <div className="loading">
+          <LoadingIndicator area="detail-area"/>
+        </div>
       </div>
     );
   }

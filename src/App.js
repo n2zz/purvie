@@ -3,6 +3,7 @@ import MovieDataLoader from './loader/MovieDataLoader';
 import MovieDetailPopup from './MovieDetailPopup';
 import './App.css'
 import { trackPromise } from 'react-promise-tracker';
+import { LoadingIndicator } from './Menu1.js';
 import GetNaverAPISearch from "./loader/GetNaverAPISearch";
 
 class App extends Component {
@@ -17,16 +18,19 @@ class App extends Component {
     this.ldrMovieData = new MovieDataLoader();
     this.arrBoxOfficeData = null; 
     this.current_page = 1;
+    this.genre = "";
     // 팝업 화면 노출 여부와 값
     this.state = {
       showPopup:false
+      , click_popup_button : false
       , movie_data : {}
     };
   }
   togglePopup()
   {
     this.setState({
-      showPopup:!this.state.showPopup
+      click_popup_button : true
+      , showPopup:!this.state.showPopup
     });
   }
   /**
@@ -91,26 +95,36 @@ class App extends Component {
     if(this.ldrMovieData.search_condition.genre !== strGenre)
     {
       this.ldrMovieData.search_condition.genre = strGenre;
+      this.genre = strGenre;
     }
     /*
     else
     {
       bAddList = true;
     }*/
+    let divMovieList = document.getElementById("div_movie_list");
+    if(divMovieList != null)
+    {
+      while ( divMovieList.hasChildNodes() ) 
+      { 
+        divMovieList.removeChild( divMovieList.firstChild ); 
+      }
+    }
+
     trackPromise(
-    this.ldrMovieData.getMovieListWithPoster().then(
-        function(arrBOData)
-        {
-          if(arrBOData != null)
+      this.ldrMovieData.getMovieListWithPoster().then(
+          function(arrBOData)
           {
-            objThis.drawBoxOfficeList(arrBOData, bAddList);
+            if(arrBOData != null)
+            {
+              objThis.drawBoxOfficeList(arrBOData, bAddList);
+            }
           }
-        }
-    ).catch(function(e)
-        {
-          console.log("Error Massage : " + e);
-        }
-    ));
+      ).catch(function(e)
+          {
+            console.log("Error Massage : " + e);
+          }
+      ), 'genre-area');
   }
   /**
    * 박스오피스 목록을 가져온다.
@@ -166,8 +180,12 @@ class App extends Component {
       {
         console.log("Error Massage : " + e);
       }
-    ));
+    ), 'detail-area');
   }
+
+  /**
+   * 영화목록을 가져온다.
+   */
   getList()
   {
     let strGenre = this.props.match.params.genre;
@@ -188,11 +206,19 @@ class App extends Component {
   componentDidMount() {
     this.getList();
   }
+
+  /**
+   * 화면에 state 값이 바뀌면 호출되는 함수
+   * @param {} nextProps 
+   */
   componentDidUpdate(nextProps) 
   {
     let strGenre = this.props.match.params.genre;
-    if(strGenre != null)
+    
+    
+    if(!this.state.click_popup_button)
     {
+      console.log("request list");
       this.getList();
     }
   }

@@ -20,7 +20,7 @@ class MovieDataLoader
                                 , writable : false
                                 , configurable: false});
         Object.defineProperty(this, "KOBIS_API_KEY"
-                                , {value : "835b781c9cbd73d0521d5e5a878da647"
+                                , {value : "f1c2f4ba555e441d24c213598b4c7950"
                                 , writable : false
                                 , configurable: false});
         Object.defineProperty(this, "NAVER_API_ID"
