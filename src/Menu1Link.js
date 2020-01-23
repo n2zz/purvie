@@ -13,7 +13,7 @@ const Menu1Link = () => {
           <NavLink to="/menu1/movie/액션" className="menu_link_sub_li_style" activeClassName="active">액션</NavLink>
         </li>
         <li>
-          <NavLink to="/menu1/movie/판타지" className="menu_link_sub_li_style" activeClassName="active">SF/판타지</NavLink>
+          <NavLink to="/menu1/movie/모험" className="menu_link_sub_li_style" activeClassName="active">모험</NavLink>
         </li>
         <li>
           <NavLink to="/menu1/movie/애니메이션" className="menu_link_sub_li_style" activeClassName="active">애니메이션</NavLink>

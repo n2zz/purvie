@@ -91,7 +91,7 @@ class Menu2 extends Component {
             }
          }
         ));
-        
+
         divImage.appendChild(imgPoster);
         divMovie.appendChild(divImage);
         divInfo.appendChild(divTitle);
@@ -104,7 +104,6 @@ class Menu2 extends Component {
         
         divTest.appendChild(divMovie);
       }
-
     }
   }
 

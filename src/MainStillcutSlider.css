@@ -1,0 +1,98 @@
+@charset 'UTF-8';
+@font-face {font-family: dovemayo; src: url('./fonts/dovemayo.otf');}
+
+.slick-dots,
+.slick-next,
+.slick-prev{position:absolute;display:block;padding:0}
+.slick-dots li button:before
+,.slick-next:before
+,.slick-prev:before{
+    font-family:slick;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale
+}
+
+.slick-next {
+    font-size:0;
+    line-height:0;
+    top:50%;
+    width:50px;
+    height:100px;
+    -webkit-transform:translate(-20%,-50%);
+    -ms-transform:translate(-20%,-50%);
+    transform:translate(-20%,-50%);
+    cursor:pointer;
+    color:transparent;
+    border:none;
+    outline:0;
+    background:0 0;
+    z-index:2;
+}
+
+.slick-prev{
+    font-size:0;
+    line-height:0;
+    top:50%;
+    width:50px;
+    height:100px;
+    -webkit-transform:translate(20%,-50%);
+    -ms-transform:translate(20%,-50%);
+    transform:translate(20%,-50%);
+    cursor:pointer;
+    color:transparent;
+    border:none;
+    outline:0;
+    background:0 0;
+    z-index:2;
+}
+.slick-next:focus,.slick-next:hover,.slick-prev:focus,.slick-prev:hover{
+    color:transparent;
+    outline:0;
+    background:0 0;
+}
+.slick-next:focus:before,.slick-next:hover:before,.slick-prev:focus:before,.slick-prev:hover:before{
+    opacity:1
+}
+.slick-next.slick-disabled:before,.slick-prev.slick-disabled:before{
+    opacity:.25
+}.slick-next:before,.slick-prev:before{
+    font-size:20px;
+    line-height:1;
+    opacity:.75;
+    color:#000000
+}
+.slick-prev{
+    left:-25px
+}
+[dir=rtl] .slick-prev{
+    right:-25px;
+    left:auto
+}
+.slick-prev:before{
+    color:#ffffff;
+    font-weight:bold;
+    font-family:"dovemayo";
+    font-size:2.5vw;
+    content:'<'
+}
+.slick-next:before,[dir=rtl] .slick-prev:before{
+    color:#ffffff;
+    font-weight:bold;
+    font-family:"dovemayo";
+    font-size:2.5vw;
+    content:'>'
+}
+.slick-next{
+    right:-25px
+}
+[dir=rtl] .slick-next{
+    right:auto;
+    left:-25px
+}
+[dir=rtl] .slick-next:before{
+    color:#ffffff;
+    content:'>'
+}
+.slick-dotted.slick-slider{
+    margin-bottom:30px
+}
