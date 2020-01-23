@@ -3,6 +3,7 @@ import MoiveDataCrawler from './loader/MoiveDataCrawler';
 import MovieDetailPopup from './MovieDetailPopup';
 import './App.css'
 import { trackPromise } from 'react-promise-tracker';
+import { LoadingIndicator } from './Menu1.js';
 import GetNaverAPISearch from "./loader/GetNaverAPISearch";
 
 class App extends Component {
@@ -78,7 +79,6 @@ class App extends Component {
     THIS.state.movie_data = objMovieData;
     THIS.togglePopup();
   }
-
   /**
    * 영화 상세정보를 가져온다.
    * @param {}} strMovieID 
@@ -91,13 +91,16 @@ class App extends Component {
     THIS.ldrMovieData.getMovieInfoWithPoster(strMovieID, strPosterURL).then(
       function(objMovieData)
       {
-        THIS.drawMovieInfo(objMovieData);
+        if(objMovieData != null)
+          {
+            THIS.drawMovieInfo(objMovieData);
+          }
       }
     ).catch(function(e)
       {
         console.log("Error Massage : " + e);
       }
-    ));
+    ), 'detail-area');
   }
 
   /**
@@ -131,9 +134,9 @@ class App extends Component {
    */
   componentDidUpdate(nextProps) 
   {
-    // 팝업 요청이 아니고 장르가 변경된 경우만 새로운 리스트를 요청한다.
     if(!this.state.click_popup_button)
     {
+      console.log("request list");
       this.getList();
     }
   }
