@@ -23,9 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,8 +40,5 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://n2zz.github.io/purvie",
-  "devDependencies": {
-    "gh-pages": "^2.2.0"
-  }
+  "homepage": "http://ec2-54-180-124-29.ap-northeast-2.compute.amazonaws.com/"
 }
