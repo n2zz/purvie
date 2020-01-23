@@ -1406,6 +1406,4 @@ class MovieDataLoader
     }
 }
 
-
-
 export default MovieDataLoader;

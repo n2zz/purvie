@@ -79,7 +79,6 @@ class App extends Component {
     THIS.state.movie_data = objMovieData;
     THIS.togglePopup();
   }
-
   /**
    * 영화 상세정보를 가져온다.
    * @param {}} strMovieID 
@@ -92,7 +91,20 @@ class App extends Component {
     THIS.ldrMovieData.getMovieInfoWithPoster(strMovieID).then(
       function(objMovieData)
       {
-        THIS.drawMovieInfo(objMovieData);
+        if(objMovieData != null)
+          {
+            console.log(objMovieData.movie_title + ", " + objMovieData.product_year)
+            //GetNaverMovie ID API
+            GetNaverAPISearch(
+              objMovieData.movie_title,
+              objMovieData.product_year
+            ).then(response => {
+              if (response) objMovieData.naverId = response.split("=")[1];
+        
+              console.log("줄거리 아이디먼저 : " + objMovieData.naverId);
+              THIS.drawMovieInfo(objMovieData);
+            });
+          }
       }
     ).catch(function(e)
       {

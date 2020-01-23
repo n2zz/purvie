@@ -1,21 +1,28 @@
 import React, { Component } from "react";
-import MovieDataLoader from "./loader/MovieDataLoader";
-import "./Menu.css";
+import MovieDataLoader from './loader/MovieDataLoader';
+import GetNaverAPISearch from "./loader/GetNaverAPISearch";
+import Crawling from './Crawling';
+import "./Menu.css"
 
 class Menu2 extends Component {
   static arrBoxofficeData = null;
 
-  constructor(props) {
+  constructor(props)
+  {
     super(props);
     this.ldrMovieData = new MovieDataLoader();
   }
 
-  drawBoxOfficeList(arrBoxOfficeData) {
+  drawBoxOfficeList(arrBoxOfficeData)
+  {
     let nFirst = 0;
     let divTest = document.getElementById("test");
-
-    if (arrBoxOfficeData != null) {
-      for (nFirst = 0; nFirst < arrBoxOfficeData.length; nFirst++) {
+    let hd = new Crawling();
+    
+    if(arrBoxOfficeData != null)
+    {
+      for(nFirst = 0; nFirst < arrBoxOfficeData.length; nFirst++)
+      {
         let divMovie = document.createElement("div");
         let objBOData = arrBoxOfficeData[nFirst];
 
@@ -29,46 +36,81 @@ class Menu2 extends Component {
         // movie title
         let divTitle = document.createElement("div");
         divTitle.className = "title_div";
-        divTitle.innerHTML = "<" + objBOData.movie_title + ">";
+        divTitle.innerHTML = '<' + objBOData.movie_title + '>';
         // movie actor
-        let divActor = document.createElement("div");
-        divActor.className = "actor_div";
-        divActor.innerHTML = objBOData.open_year.replace(/-/gi, ".");
+        hd.getNaverID(objBOData.naverId);//crawling.js로
+        console.log("objBOData.naverId : " + objBOData.naverId);
+        hd.getActor().then(
+          function(response)
+          {
+            if(response != null)
+            {
+              response.forEach(function(objActor, i)
+                {
+                  let divActor = document.createElement("div");
+                  divActor.className = "actor_div";
+                  let strAC = objActor.name;
+                  divActor.innerHTML=strAC;
+                  divInfo.appendChild(divActor);
+                  console.log("1");
+      
+                }) 
+            }
+          }).then(
         // review
-        let divReview = document.createElement("div");
-        let reviewTitle = document.createElement("div");
-        let reviewId = document.createElement("div");
-        let reviewContext = document.createElement("div");
-        divReview.className = "review_div";
-        reviewTitle.className = "review_title";
-        reviewId.className = "review_id";
-        reviewContext.className = "review_context";
-        reviewTitle.innerHTML = '"리뷰1 한국인의 어쩌고 저쩌고"';
-        reviewId.innerHTML = 'abcd****';
-        reviewContext.innerHTML = '가나다라 마바사 아자차카 타파하';
+        hd.getReview().then(
+          function(response)
+          {
+            if(response != null)
+            {
+              response.forEach(function(objReview, i){
+                let divReview = document.createElement("div");
+                divReview.className = "review_div";
+
+                let reviewTitle = document.createElement("div");
+                reviewTitle.className = "review_title";
+                let strRV = objReview.title;
+                reviewTitle.innerHTML=strRV;
+                divReview.appendChild(reviewTitle);
+
+                let reviewId = document.createElement("div");
+                reviewId.className = "review_id";
+                let strRV2 = objReview.id;
+                reviewId.innerHTML=strRV2;
+                divReview.appendChild(reviewId);
+
+                let reviewContext = document.createElement("div");
+                reviewContext.className = "review_context";
+                let strRV3 = objReview.summary;
+                reviewContext.innerHTML=strRV3;
+                divReview.appendChild(reviewContext);
+
+                divInfo.appendChild(divReview);
+                console.log("2");
+              })
+            }
+         }
+        ));
 
         divImage.appendChild(imgPoster);
         divMovie.appendChild(divImage);
-        divReview.appendChild(reviewTitle);
-        divReview.appendChild(reviewId);
-        divReview.appendChild(reviewContext);
-
         divInfo.appendChild(divTitle);
-        divInfo.appendChild(divActor);
-        divInfo.appendChild(divReview);
         divMovie.appendChild(divInfo);
+        
 
         divMovie.id = "rdiv";
         divImage.id = "Ldiv";
         divInfo.id = "Rdiv";
-
+        
         divTest.appendChild(divMovie);
       }
     }
   }
 
-  getBoxofficeList(bDaily) {
+  getBoxofficeList(bDaily)
+  {
     let objThis = this;
+    let nReceiveCnt = 0;
 
     this.ldrMovieData.search_condition.item_per_page = 5;
     this.ldrMovieData.search_condition.is_daily = bDaily;
@@ -76,20 +118,46 @@ class Menu2 extends Component {
     //this.ldrMovieData.search_condition.product_year = "2017";
     //this.ldrMovieData.search_condition.movie_title = "백두산";
 
-    this.ldrMovieData
-      .getBoxOfficeListWithPoster()
-      .then(function(arrBOData) {
-        if (arrBOData != null) {
-          console.log("리스트 목록 길이 : " + arrBOData.length);
-          for (const m in arrBOData) {
-            console.log(m);
+    this.ldrMovieData.getBoxOfficeListWithPoster().then(
+        function(arrBOData)
+        {
+          if(arrBOData != null)
+          {
+            for (const m in arrBOData) {
+              //GetNaverMovie ID API
+              GetNaverAPISearch(
+                arrBOData[m].movie_title,
+                ""
+              ).then(response => {
+                if (response) 
+                {
+                  arrBOData[m].naverId = response.split("=")[1];
+                  nReceiveCnt++;
+                }
+
+                
+                console.log(" naverId : " +arrBOData[m].naverId);
+
+
+              }).then(
+                function()
+                {
+                  // Todo :  arrBOData 마지막 배열 인덱스일 때, objThis.drawBoxOfficeList(arrBOData); 호출
+                  if(nReceiveCnt === arrBOData.length)
+                  {
+                    objThis.drawBoxOfficeList(arrBOData);
+                  }
+               
+                }
+              );
+            }
           }
-          objThis.drawBoxOfficeList(arrBOData);
         }
-      })
-      .catch(function(e) {
-        console.log("Error Massage : " + e);
-      });
+    ).catch(function(e)
+        {
+          console.log("Error Massage : " + e);
+        }
+    );
   }
 
   componentDidMount() {
@@ -97,7 +165,10 @@ class Menu2 extends Component {
   }
 
   render() {
-    return <div id="test"></div>;
+    return (
+      <div id="test">
+      </div>
+    );
   }
 }
 
