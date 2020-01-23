@@ -110,7 +110,10 @@ class App extends Component {
     const THIS = this;
     let strGenre = this.props.match.params.genre;
     
-    this.ldrMovieData.search_condition.genre = strGenre;
+    if(strGenre != null && strGenre !== "")
+    {  
+      this.ldrMovieData.search_condition.genre = strGenre;
+    }
     this.ldrMovieData.search_condition.item_per_page = 6;
     this.ldrMovieData.getMovieList().then(function(arrMovieData)
       {
@@ -133,9 +136,9 @@ class App extends Component {
    */
   componentDidUpdate(nextProps) 
   {
-    if(this.props.match.params.genre !== "")
+    if(this.props.match.params.genre != null
+      && this.props.match.params.genre !== "")
     {
-      console.log("request list");
       this.getList();
       this.props.match.params.genre = "";
     }
