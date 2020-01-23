@@ -34,7 +34,7 @@ class MovieDetailPopup extends Component {
                     개봉일
                   </div>
                   <div className="open_year">
-                    {this.props.movie_data.open_year.replace(/-/gi, '.')}
+                    {this.props.movie_data.open_year}
                   </div>
                 </div>
                 <div>

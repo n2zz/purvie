@@ -12,9 +12,9 @@ body {
 .menu_header
 {
     width: 100%;
-    height: 9vw;
-    padding-top: 4vw;
-    margin: auto;   
+    height: 6vw;
+    padding-top: 6vw;
+    margin: auto;
 }
 
 .menu_head {
@@ -159,12 +159,12 @@ body {
 .loading {
     position: fixed;
     top: 40vw;
-    left: 48vw;
+    left: calc(50vw - 20px);
 }
 
 @media (max-width: 500px) {
     body { font-size: 2.7vw; transition: all 500ms; }
-    .menu_header { padding-top: 8%;}
+    .menu_header { height: 10vw; padding-top: 6%; }
     .menu_head { width: 33%; height: 12vw; }
     .img_title_icon { width: 7vw; height: 7vw; }
     .menu_title { font-size: 5vw; padding-top: 4%; }
