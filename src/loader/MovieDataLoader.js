@@ -20,7 +20,9 @@ class MovieDataLoader
                                 , writable : false
                                 , configurable: false});
         Object.defineProperty(this, "KOBIS_API_KEY"
-                                , {value : "f1c2f4ba555e441d24c213598b4c7950"
+                                , {value : "7413c670477c3f0247f91069a61d4ba9"
+                                //, {value : "92a5fe00cff7f7942473696d10be17ad"
+                                //, {value : "835b781c9cbd73d0521d5e5a878da647"
                                 , writable : false
                                 , configurable: false});
         Object.defineProperty(this, "NAVER_API_ID"
@@ -450,6 +452,8 @@ class MovieDataLoader
         // 장르 검색 페이징 이력(간격,  m_nGenreEndPageIndex - m_nGenreStartPageIndex 값 저장)
         // 이전 페이지 로드용
         this.m_arrPagingHistory = [];
+        // 장르 검색 while문 제어용 변수
+        this.is_finish = false;
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -464,6 +468,9 @@ class MovieDataLoader
     forcedCallResolve(objReturnData)
     {
         const THIS = this;
+
+        // while문을 강제 종료한다.
+        THIS.is_finish = true;
 
         if(THIS.m_hdlPromiseTimer != null)
         {
@@ -491,6 +498,9 @@ class MovieDataLoader
     {
         const THIS = this;
 
+        // while문을 강제 종료한다.
+        THIS.is_finish = true;
+        
         if(THIS.m_hdlPromiseTimer != null)
         {
             setTimeout(
@@ -818,38 +828,6 @@ class MovieDataLoader
     }
     
     /**
-     * 네이버 영화 코드를 반환한다.
-     */
-    getNaverCode(objMovieData)
-    {
-        /*
-        const http = require('http');
-        const THIS = this;
-        const REQUEST = require('request');
-        const OPTIONS = {
-            query : objMovieData.movie_title
-        }
-        
-        REQUEST.get(
-            {
-                uri:'https://openapi.naver.com/v1/search/movie.json'
-                , qs : OPTIONS
-                , headers:{
-                    'X-Naver-Client-Id' : THIS.NAVER_API_ID
-                    , 'X-Naver-Client-Secret' : THIS.NAVER_API_KEY
-                }
-            }, function(err, res, body)
-            {
-                if(body != null)
-                {
-                    let jsnBody = JSON.parse(body);
-                    console.log(jsnBody);
-                }
-                
-            }
-        );*/
-    }
-    /**
     *  해당 영화에 맞는 포스터를 가져온다.
     */ 
     getMoviePoster(objMovieData)
@@ -870,7 +848,7 @@ class MovieDataLoader
                                 api_key : THIS.MOVIEPOSTER_API_KEY
                                 , query : strSearchTitle
                             }
-                            ,timeout: 1000 // 1초 이내에 응답이 오지 않으면 에러로 간주
+                            ,timeout: 10000 // 10초 이내에 응답이 오지 않으면 에러로 간주
                         }
                     ).then((response) => 
                         {
@@ -1152,7 +1130,8 @@ class MovieDataLoader
         
         strCurrentAPIURL = THIS.KOBIS_API_MOVIE_LIST_URL;
 
-        let bFinish = false;
+        // 장르 while 제어 flag 초기화
+        THIS.is_finish = false;
         
         // 일반 영화 리스트를 요청 후 해당 장르 영화만 추출한다.
         // search_condition.item_per_page 설정 갯수만큼 가져오면 완료한다.
@@ -1200,7 +1179,7 @@ class MovieDataLoader
                             let nListLength = 0;
     
                             nTotalLength = jsnMovieList.length;
-    
+                            console.log("request movie list by genre!!!");
                             for(nFirst = 0; nFirst < nTotalLength; nFirst++)
                             {
                                 let objBOData = null;
@@ -1233,7 +1212,7 @@ class MovieDataLoader
                         else
                         {
                             // 요청 성공 후 결과 값이 없는 경우 강제 완료한다.
-                            bFinish = true;   
+                            THIS.is_finish = true;   
                         }
                     }
                 );
@@ -1241,7 +1220,7 @@ class MovieDataLoader
 
         async function fnMakeDataByGenre()
         {
-            while(!bFinish)
+            while(!THIS.is_finish)
             {
                 await fnCheckDataByGenre();
                 if(arrMovieData.length === THIS.search_condition.item_per_page)
@@ -1293,7 +1272,7 @@ class MovieDataLoader
         let strErrorMsg = "";
         let arrMovieData = null;
 
-        // 3초 대기 후 결과가 있으면 반환하고 없으면 실패 메시지를 반환한다.
+        // 30초 대기 후 결과가 있으면 반환하고 없으면 실패 메시지를 반환한다.
         return new Promise(function(successLoad, failedLoad)
             {
                 if(THIS.search_condition.section === THIS.BOXOFFICE
