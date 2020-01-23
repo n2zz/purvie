@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-import MovieDataLoader from './loader/MovieDataLoader'
+import MoiveDataCrawler from './loader/MoiveDataCrawler'
 import "./App.css"
 import "./MainStillcutSlider.css"
 
@@ -21,7 +21,7 @@ class MainStillcutSlider extends Component {
     constructor(props)
     {
         super(props);
-        this.ldrMovieData = new MovieDataLoader();
+        this.ldrMovieData = new MoiveDataCrawler();
         this.state = {
            slider_data : []
         };
@@ -45,10 +45,8 @@ class MainStillcutSlider extends Component {
     {
         const THIS = this;
         THIS.ldrMovieData.search_condition.item_per_page = 5;
-        THIS.ldrMovieData.search_condition.is_daily = true;
-        THIS.ldrMovieData.search_condition.nation_section = THIS.ldrMovieData.ALL;
 
-        THIS.ldrMovieData.getBoxOfficeListWithPoster().then(
+        THIS.ldrMovieData.getBoxOfficeListWithStillcut().then(
             function(arrBOData)
             {
                 if(arrBOData != null)

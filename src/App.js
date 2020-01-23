@@ -62,7 +62,7 @@ class App extends Component {
         divMovie.className = "movie_div";
         imgPoster.className = "img_poster"
         imgPoster.src = arrMoiveData[nFirst].poster_url;
-        divMovie.addEventListener("click", function(){THIS.getInfo(strMovieID);});
+        divMovie.addEventListener("click", function(){THIS.getInfo(strMovieID, imgPoster.src);});
         
         divMovie.appendChild(imgPoster);
         divMovieList.appendChild(divMovie);
@@ -83,27 +83,17 @@ class App extends Component {
    * 영화 상세정보를 가져온다.
    * @param {}} strMovieID 
    */
-  getInfo(strMovieID)
+  getInfo(strMovieID, strPosterURL)
   {
     const THIS = this;
     
     trackPromise(
-    THIS.ldrMovieData.getMovieInfoWithPoster(strMovieID).then(
+    THIS.ldrMovieData.getMovieInfoWithPoster(strMovieID, strPosterURL).then(
       function(objMovieData)
       {
         if(objMovieData != null)
           {
-            console.log(objMovieData.movie_title + ", " + objMovieData.product_year)
-            //GetNaverMovie ID API
-            GetNaverAPISearch(
-              objMovieData.movie_title,
-              objMovieData.product_year
-            ).then(response => {
-              if (response) objMovieData.naverId = response.split("=")[1];
-        
-              console.log("줄거리 아이디먼저 : " + objMovieData.naverId);
-              THIS.drawMovieInfo(objMovieData);
-            });
+            THIS.drawMovieInfo(objMovieData);
           }
       }
     ).catch(function(e)
@@ -122,6 +112,7 @@ class App extends Component {
     let strGenre = this.props.match.params.genre;
     
     this.ldrMovieData.search_condition.genre = strGenre;
+    this.ldrMovieData.search_condition.item_per_page = 6;
     this.ldrMovieData.getMovieList().then(function(arrMovieData)
       {
         THIS.drawMovieList(arrMovieData);

@@ -75,7 +75,7 @@ class MovieDetailPopup extends Component {
                     출연진
                   </div>
                   <div className="actor_text">
-                    {this.props.movie_data.ators_text}
+                    {this.props.movie_data.actors_text}
                   </div>
                 </div>
                 <div>

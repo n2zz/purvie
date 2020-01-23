@@ -65,7 +65,7 @@
 
 @media (min-width: 900px) {
   .stillcut { width: 810px;  height: 480px; }
-  .imgStill { width: 810px; }
+  .imgStill { width: 810px; height: 480px; }
   .movie_div { width: 810px; }
   .img_poster { width: 145px; height: 215px; }
 }
