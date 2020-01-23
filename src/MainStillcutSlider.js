@@ -51,7 +51,7 @@ class MainStillcutSlider extends Component {
             {
                 if(arrBOData != null)
                 {
-                    THIS.addSliderData(arrBOData);
+;                   THIS.addSliderData(arrBOData);
                 }
             }
         ).catch(function(e)
