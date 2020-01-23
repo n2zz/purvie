@@ -56,12 +56,12 @@ class App extends Component {
       {
         let divMovie = document.createElement("div");
         let imgPoster = new Image();
-        let strMovieID = arrMoiveData[nFirst].movie_id;
+        let strMovieTitle = arrMoiveData[nFirst].movie_title;
         // 스타일 적용
         divMovie.className = "movie_div";
         imgPoster.className = "img_poster"
         imgPoster.src = arrMoiveData[nFirst].poster_url;
-        divMovie.addEventListener("click", function(){THIS.getInfo(strMovieID, imgPoster.src);});
+        divMovie.addEventListener("click", function(){THIS.getInfo(strMovieTitle, imgPoster.src);});
         
         divMovie.appendChild(imgPoster);
         divMovieList.appendChild(divMovie);

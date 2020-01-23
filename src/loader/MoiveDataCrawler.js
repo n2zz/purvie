@@ -57,7 +57,12 @@ class MoiveDataCrawler
                                 , {value : strNaverDetailURL
                                 , writable : false
                                 , configurable: false});
-
+        // 네이버 영화 상세 정보 URL
+        let strNaverDetailMobileURL = "https://m.search.naver.com/search.naver?where=m&query=";
+        Object.defineProperty(this, "NAVER_DETAIL_MOBILE_URL"
+                                , {value : strNaverDetailMobileURL
+                                , writable : false
+                                , configurable: false});
         this.is_list = true;
         
         
@@ -544,6 +549,7 @@ class MoiveDataCrawler
         const MOVIELIST_URL = (THIS.MOIVELIST_CRAWLING_URL_PREFIX 
                             + THIS.search_condition.genre 
                             + THIS.MOIVELIST_CRAWLING_URL_POSTFIX);
+        
         return axios.get(MOVIELIST_URL).then(
             function(response)
             {
@@ -578,14 +584,14 @@ class MoiveDataCrawler
 
     /**
      * 영화 상세 정보를 가져온다.
-     *  @param strMovieID : 상세정보를 요청할 Movie ID
+     *  @param strMovieTitle : 상세정보를 요청할 Movie ID
      *  @return
      */
-    getMovieInfoWithPoster(strMovieID, strPosterURL)
+    getMovieInfoWithPoster(strMovieTitle, strPosterURL)
     {
         const THIS = this;
 
-        if(strMovieID != null && strMovieID !== "")
+        if(strMovieTitle != null && strMovieTitle !== "")
         {
             let objOptions = {
                 headers:{
@@ -595,21 +601,74 @@ class MoiveDataCrawler
             };
         
             return axios.get(THIS.CORS_ANYWHERE_URL 
-                + THIS.NAVER_DETAIL_URL 
-                + strMovieID, objOptions)
+                + THIS.NAVER_DETAIL_MOBILE_URL 
+                + strMovieTitle, objOptions)
             .then(function(response)
                 {
                     let objMovieData = {};
 
                     try
                     {
+                        const $ = cheerio.load(response.data);
+                        const $bodyList = $("div.api_subject_bx");
+
+                        /*
                         console.log(response.data);
                         const $ = cheerio.load(response.data);
                         const $bodyList = $("div.wide_info_area");
-
+                        */
                         // 값이 있는 경우
                         if($bodyList != null)
                         {
+                            // 타이틀 설정
+                            Object.defineProperty(objMovieData, "movie_title"
+                                    , {value : strMovieTitle
+                                    , writable : false
+                                    , configurable: false});
+                            
+                            // 상세정보(장르, 국가, 개봉일)
+                            let datMoiveInfo = $bodyList.children("div.main_info")
+                                                        .children("div.movie_summary")
+                                                        .children("div.detail_info")
+                                                        .children("dl");
+                            let strGenres = "";
+                            let strNations = "";
+                            let strOpenYear = "";
+                            let strPlot = "";
+                            let strActors = "";
+
+                            console.log(datMoiveInfo);
+
+                            datMoiveInfo[0].children.forEach(
+                                function(objMovieInfo, nIndex)
+                                {
+                                    if(objMovieInfo.type === "tag" && objMovieInfo.name === "dd")
+                                    {
+                                        
+                                        console.log(objMovieInfo);
+
+                                        // 장르, 국가, 개봉일
+                                        if(nIndex === 3)
+                                        {
+                                            strGenres = objMovieInfo.children[1].children[0].data; 
+                                            strNations = objMovieInfo.children[5].children[0].data;
+                                        }
+                                        // 개봉날짜
+                                        if(nIndex === 7)
+                                        {
+                                            strOpenYear = objMovieInfo.children[0].children[0].data;
+                                        }
+                                        // 줄거리
+                                        if(nIndex === 11)
+                                        {
+                                            strPlot = objMovieInfo.children[1].children[0].data;
+                                        }
+                                    }
+                                }
+                            );
+                            
+
+                            /*
                             // 네이버 ID 값
                             Object.defineProperty(objMovieData, "movie_id"
                                     , {value : strMovieID
@@ -617,14 +676,15 @@ class MoiveDataCrawler
                                     , configurable: false});
 
                             let datMovieInfo = $bodyList.children("div.mv_info");
+                            /*
                             // 타이틀을 가져온다.
                             let strMovieTitle = datMovieInfo.children("h3.h_movie").children("a").text();
                             console.log($bodyList.children("h3.h_movie").children("a").text());
                             Object.defineProperty(objMovieData, "movie_title"
                                     , {value : strMovieTitle
                                     , writable : false
-                                    , configurable: false});
-                                    
+                                    , configurable: false});*/
+                            /*  
                             // 포스터 URL
                             Object.defineProperty(objMovieData, "poster_url"
                                     , {value : strPosterURL
@@ -732,8 +792,14 @@ class MoiveDataCrawler
                                         }
                                     }
                                 );
-                            }
+                            }*/
 
+                            // 포스터 URL
+                            Object.defineProperty(objMovieData, "poster_url"
+                                    , {value : strPosterURL
+                                    , writable : false
+                                    , configurable: false});
+                            
                             // 개봉연도
                             Object.defineProperty(objMovieData, "open_year"
                                     , {value : strOpenYear
