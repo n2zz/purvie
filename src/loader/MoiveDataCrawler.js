@@ -264,6 +264,7 @@ class MoiveDataCrawler
         objMovieData.genres_text = "";              // 장르(문자열로 전부 나열)
         objMovieData.directors_text = "";           // 감독명(문자열로 전부 나열)
         objMovieData.actors_text = "";              // 배우명(문자열로 전부 나열)
+        objMovieData.plot = "";                       // 줄거리
 
      *  @param jsnData : 변환할 JSON 객체
      *  @return objMovieData
@@ -345,8 +346,6 @@ class MoiveDataCrawler
     getBoxOfficeListWithStillcut()
     {
         const THIS = this;
-        let strErrorMsg = "";
-        let arrMovieData = null;
 
         return THIS.getBoxOfficeListWithPoster().then(
             function(arrReturnMovieList)
@@ -381,22 +380,15 @@ class MoiveDataCrawler
                                     if(objResult.backdrop_path != null)
                                     {
                                         strStillcutURL = THIS.MOVIEPOSTER_URL_PREFIX + objResult.backdrop_path;
+                                        
+                                        Object.defineProperty(objMovieData
+                                                            , "stillcut_url"
+                                                            , {value : strStillcutURL
+                                                            , writable : false
+                                                            , configurable: false}
+                                        );
                                     }
-                                    else
-                                    {
-                                        strStillcutURL = THIS.NO_POSTER_IMAGE_URL;
-                                    } 
                                 }
-                                else
-                                {
-                                    strStillcutURL = THIS.NO_POSTER_IMAGE_URL;
-                                }
-                                
-                                console.log("Stillcut URL : " + strStillcutURL);
-                                Object.defineProperty(objMovieData, "stillcut_url", {
-                                                                    value : strStillcutURL
-                                                                    , writable : false
-                                                                    , configurable: false});
                             }
                             
                             return objMovieData;
@@ -431,7 +423,49 @@ class MoiveDataCrawler
                     
                     for(nIndex = 0; nIndex < arrReturnMovieList.length; nIndex++)
                     {
+                        // 스틸컷 이미지를 API를 이용해서 가져온다.
+                        // 사진이 없는 경우 크롤링을 통해서 가져온다. 
+                        // 그래도 없는 경우 NO Image 출력
                         objPromise = await fnGetStillcut(arrReturnMovieList[nIndex]);
+                        let objMovieData = arrReturnMovieList[nIndex];
+                        let strStillCut = "";
+
+                        if(arrReturnMovieList[nIndex].stillcut_url == null)
+                        {
+                            objPromise = await axios.get(THIS.CORS_ANYWHERE_URL + THIS.NAVER_DETAIL_URL + objMovieData.movie_id, objOptions)
+                            .then(function(response)
+                                {
+                                    if(response.data != null)
+                                    {
+                                        try
+                                        {       
+                                            const $ = cheerio.load(response.data);
+                                            const $bodyList = $("div.viewer_img").children("img._Img");
+                                            
+                                            strStillCut = $bodyList.attr('src');
+                                        }
+                                        catch(e)
+                                        {
+                                            console.log(e);
+                                        }
+                                        
+                                    }
+
+                                    if(strStillCut === "")
+                                    {
+                                        strStillCut = THIS.NO_POSTER_IMAGE_URL;
+                                    }
+
+                                    Object.defineProperty(objMovieData
+                                        , "stillcut_url"
+                                        , {value : strStillCut
+                                        , writable : false
+                                        , configurable: false}
+                                    );
+                                    
+                                }
+                            );
+                        }
                     }
 
                     return objPromise;
@@ -553,11 +587,13 @@ class MoiveDataCrawler
 
         if(strMovieID != null && strMovieID !== "")
         {
-            let objOptions = {headers:{
-                'Access-Control-Allow-Origin' : '*'
-                , 'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With'
-                }};
-                
+            let objOptions = {
+                headers:{
+                    'Access-Control-Allow-Origin' : '*'
+                    , 'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With'
+                }
+            };
+        
             return axios.get(THIS.CORS_ANYWHERE_URL 
                 + THIS.NAVER_DETAIL_URL 
                 + strMovieID, objOptions)
@@ -565,141 +601,172 @@ class MoiveDataCrawler
                 {
                     let objMovieData = {};
 
-                    console.log(response.data);
-                    const $ = cheerio.load(response.data);
-                    const $bodyList = $("div.wide_info_area");
-
-                    // 값이 있는 경우
-                    if($bodyList != null)
+                    try
                     {
-                        // 네이버 ID 값
-                        Object.defineProperty(objMovieData, "movie_id"
-                                , {value : strMovieID
-                                , writable : false
-                                , configurable: false});
+                        console.log(response.data);
+                        const $ = cheerio.load(response.data);
+                        const $bodyList = $("div.wide_info_area");
 
-                        let datMovieInfo = $bodyList.children("div.mv_info");
-                        // 타이틀을 가져온다.
-                        let strMovieTitle = datMovieInfo.children("h3.h_movie").children("a").text();
-                        console.log($bodyList.children("h3.h_movie").children("a").text());
-                        Object.defineProperty(objMovieData, "movie_title"
-                                , {value : strMovieTitle
-                                , writable : false
-                                , configurable: false});
-                                
-                        // 포스터 URL
-                        Object.defineProperty(objMovieData, "poster_url"
-                                , {value : strPosterURL
-                                , writable : false
-                                , configurable: false});
-                        
-                        let datSpec = datMovieInfo.children("p.info_spec").children("span");
-                        let datActors = datMovieInfo.children("div.info_spec2").children("dl.step2").children("dd");
-                        let strGenres = "";
-                        let strOpenYear = "";
-                        let strNations = "";
-                        let strActors = "";
-
-                        if(datSpec.length >= 5)
+                        // 값이 있는 경우
+                        if($bodyList != null)
                         {
-                            // 장르
-                            if(datSpec[0].children.length > 0)
+                            // 네이버 ID 값
+                            Object.defineProperty(objMovieData, "movie_id"
+                                    , {value : strMovieID
+                                    , writable : false
+                                    , configurable: false});
+
+                            let datMovieInfo = $bodyList.children("div.mv_info");
+                            // 타이틀을 가져온다.
+                            let strMovieTitle = datMovieInfo.children("h3.h_movie").children("a").text();
+                            console.log($bodyList.children("h3.h_movie").children("a").text());
+                            Object.defineProperty(objMovieData, "movie_title"
+                                    , {value : strMovieTitle
+                                    , writable : false
+                                    , configurable: false});
+                                    
+                            // 포스터 URL
+                            Object.defineProperty(objMovieData, "poster_url"
+                                    , {value : strPosterURL
+                                    , writable : false
+                                    , configurable: false});
+                            
+                            let datSpec = datMovieInfo.children("p.info_spec").children("span");
+                            
+                            let strGenres = "";
+                            let strOpenYear = "";
+                            let strNations = "";
+
+                            if(datSpec.length >= 5)
                             {
-                                datSpec[0].children.forEach(
-                                    function(objHTML, nIndex)
-                                    {
-                                        if(objHTML.type === "tag" && objHTML.name === "a")
-                                        {
-                                            if(strGenres !== "")
-                                            {
-                                                strGenres += ", "
-                                            }
-
-                                            strGenres += objHTML.children[0].data;
-                                        }
-                                    }
-
-                                )
-                            }
-                            // 국가
-                            if(datSpec[1].children.length > 0)
-                            {
-                                datSpec[1].children.forEach(
-                                    function(objHTML, nIndex)
-                                    {
-                                        if(objHTML.type === "tag" && objHTML.name === "a")
-                                        {
-                                            if(strNations !== "")
-                                            {
-                                                strNations += ", "
-                                            }
-
-                                            strNations += objHTML.children[0].data;
-                                        }
-                                    }
-
-                                )
-                            }
-                            // 개봉연도
-                            if(datSpec[3].children.length > 0)
-                            {
-                                datSpec[3].children.forEach(
-                                    function(objHTML, nIndex)
-                                    {
-                                        if(objHTML.type === "tag" && objHTML.name === "a")
-                                        {
-                                            strOpenYear += objHTML.children[0].data;
-                                        }
-                                    }
-
-                                )
-                            }
-                        }
-                        // 출연배우
-                        // 개봉연도
-                        if(datActors[0].children.length > 0)
-                        {
-                            datActors[0].children.forEach(
-                                function(objHTML, nIndex)
+                                // 장르
+                                if(datSpec[0].children.length > 0)
                                 {
-                                    if(objHTML.type === "tag" && objHTML.name === "a")
-                                    {
-                                        console.log(objHTML.children[0].data);
-                                        if(strActors !== "")
+                                    datSpec[0].children.forEach(
+                                        function(objHTML, nIndex)
                                         {
-                                            strActors += ", "
+                                            if(objHTML.type === "tag" && objHTML.name === "a")
+                                            {
+                                                if(strGenres !== "")
+                                                {
+                                                    strGenres += ", "
+                                                }
+
+                                                strGenres += objHTML.children[0].data;
+                                            }
                                         }
-                                        strActors += objHTML.children[0].data;
-                                    }
+
+                                    )
                                 }
+                                // 국가
+                                if(datSpec[1].children.length > 0)
+                                {
+                                    datSpec[1].children.forEach(
+                                        function(objHTML, nIndex)
+                                        {
+                                            if(objHTML.type === "tag" && objHTML.name === "a")
+                                            {
+                                                if(strNations !== "")
+                                                {
+                                                    strNations += ", "
+                                                }
 
-                            )
+                                                strNations += objHTML.children[0].data;
+                                            }
+                                        }
+
+                                    )
+                                }
+                                // 개봉연도
+                                if(datSpec[3].children.length > 0)
+                                {
+                                    datSpec[3].children.forEach(
+                                        function(objHTML, nIndex)
+                                        {
+                                            if(objHTML.type === "tag" && objHTML.name === "a")
+                                            {
+                                                strOpenYear += objHTML.children[0].data;
+                                            }
+                                        }
+
+                                    )
+                                }
+                            }
+                            // 출연배우
+                            let datActors = datMovieInfo.children("div.info_spec2").children("dl.step2").children("dd");
+                            let strActors = "";
+                            if(datActors[0].children.length > 0)
+                            {
+                                datActors[0].children.forEach(
+                                    function(objHTML, nIndex)
+                                    {
+                                        if(objHTML.type === "tag" && objHTML.name === "a")
+                                        {
+                                            if(strActors !== "")
+                                            {
+                                                strActors += ", "
+                                            }
+                                            strActors += objHTML.children[0].data;
+                                        }
+                                    }
+
+                                )
+                            }
+                            
+                            // 줄거리
+                            let datPlot = $("div.story_area").children("p.con_tx");
+                            let strPlot = ""
+                            
+                            if(datPlot.length > 0)
+                            {
+                                datPlot[0].children.forEach(
+                                    function(datChildren, nIndex)
+                                    {
+                                        if(datChildren.type === "text")
+                                        {
+                                            strPlot += datChildren.data;
+                                        }
+                                        else if(datChildren.type === "tag" && datChildren.name === "br")
+                                        {
+                                            strPlot += "\n";
+                                        }
+                                    }
+                                );
+                            }
+
+                            // 개봉연도
+                            Object.defineProperty(objMovieData, "open_year"
+                                    , {value : strOpenYear
+                                    , writable : false
+                                    , configurable: false});
+                            // 국가
+                            Object.defineProperty(objMovieData, "nations"
+                                    , {value : strNations
+                                    , writable : false
+                                    , configurable: false});
+                            // 장르
+                            Object.defineProperty(objMovieData, "genres_text"
+                                    , {value : strGenres
+                                    , writable : false
+                                    , configurable: false});
+                            // 출연배우
+                            Object.defineProperty(objMovieData, "actors_text"
+                                    , {value : strActors
+                                    , writable : false
+                                    , configurable: false});
+                            
+                            // 줄거리
+                            Object.defineProperty(objMovieData, "plot"
+                                    , {value : strPlot
+                                    , writable : false
+                                    , configurable: false});
                         }
-                        
-                        
 
-                        // 개봉연도
-                        Object.defineProperty(objMovieData, "open_year"
-                                , {value : strOpenYear
-                                , writable : false
-                                , configurable: false});
-                        // 국가
-                        Object.defineProperty(objMovieData, "nations"
-                                , {value : strNations
-                                , writable : false
-                                , configurable: false});
-                        // 장르
-                        Object.defineProperty(objMovieData, "genres_text"
-                                , {value : strGenres
-                                , writable : false
-                                , configurable: false});
-                        // 출연배우
-                        Object.defineProperty(objMovieData, "actors_text"
-                                , {value : strActors
-                                , writable : false
-                                , configurable: false});
                     }
-
+                    catch(e)
+                    {
+                        console.log("[MovieDataCrawler.getMovieInfoWithPoster]" + e);
+                    }
                     
                     return objMovieData;
                 }

@@ -3,39 +3,6 @@ import Crawling from './Crawling';
 import "./MovieDetailPopup.css"
 
 class MovieDetailPopup extends Component {
-  /**
-   * 출력될 화면 HTML 및 로직
-   */
-  componentDidMount(){
-    let hd = new Crawling();
-    let objMovieData = this.props.movie_data;
-    
-    var divPlot = document.getElementById("realplot");
-
-    if(objMovieData.naverId != null){
-      hd.getNaverID(objMovieData.naverId);//crawling.js로
-      console.log("objMovieData.naverId : " + objMovieData.naverId);
-      hd.getPlot().then(
-        function(response)
-        {
-          if(response != null)
-          {
-            response.forEach(function(objPlot, i)
-              {
-                let divPL=document.createElement("div");
-                let strPL = objPlot.line;
-                divPL.innerHTML=strPL;
-                divPlot.appendChild(divPL);
-
-              })
-          }
-        });
-    }
-    else{
-      divPlot.innerHTML = "줄거리가 없습니다.";
-    }
-    
-  }
   
   render()
   {
@@ -55,7 +22,7 @@ class MovieDetailPopup extends Component {
             <div className="context">
               {/* 포스터 */}
               <div>
-                <img className="image" src={this.props.movie_data.poster_url}/>
+                <img className="image" src={this.props.movie_data.poster_url} alt={this.props.movie_data.movie_title}/>
               </div>
               {/* 상세정보 */}
               <div className="info">
@@ -102,7 +69,11 @@ class MovieDetailPopup extends Component {
                 줄거리
               </div>
               <div id = 'realplot'>
-                
+                {this.props.movie_data.plot.split('\n').map( 
+                  line => {
+                    return (<div>{line}</div>)
+                  })
+                }
               </div>
             </div>
         </div>

@@ -4,7 +4,6 @@ import MovieDetailPopup from './MovieDetailPopup';
 import './App.css'
 import { trackPromise } from 'react-promise-tracker';
 import { LoadingIndicator } from './Menu1.js';
-import GetNaverAPISearch from "./loader/GetNaverAPISearch";
 
 class App extends Component {
   static arrMoiveData = null;
@@ -134,10 +133,11 @@ class App extends Component {
    */
   componentDidUpdate(nextProps) 
   {
-    if(!this.state.click_popup_button)
+    if(this.props.match.params.genre !== "")
     {
       console.log("request list");
       this.getList();
+      this.props.match.params.genre = "";
     }
   }
   /**
