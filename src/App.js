@@ -3,6 +3,7 @@ import MoiveDataCrawler from './loader/MoiveDataCrawler';
 import MovieDetailPopup from './MovieDetailPopup';
 import './App.css'
 import { trackPromise } from 'react-promise-tracker';
+import { LoadingIndicator } from './Menu1.js';
 import GetNaverAPISearch from "./loader/GetNaverAPISearch";
 
 class App extends Component {
@@ -97,7 +98,7 @@ class App extends Component {
       {
         console.log("Error Massage : " + e);
       }
-    ));
+    ), 'detail-area');
   }
 
   /**
@@ -130,9 +131,9 @@ class App extends Component {
    */
   componentDidUpdate(nextProps) 
   {
-    // 팝업 요청이 아니고 장르가 변경된 경우만 새로운 리스트를 요청한다.
     if(!this.state.click_popup_button)
     {
+      console.log("request list");
       this.getList();
     }
   }

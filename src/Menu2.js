@@ -45,7 +45,7 @@ class Menu2 extends Component {
         reviewContext.className = "review_context";
         reviewTitle.innerHTML = '"리뷰1 한국인의 어쩌고 저쩌고"';
         reviewId.innerHTML = 'abcd****';
-        reviewContext.innerHTML = 'etc';
+        reviewContext.innerHTML = '가나다라 마바사 아자차카 타파하';
 
         divImage.appendChild(imgPoster);
         divMovie.appendChild(divImage);
