@@ -56,12 +56,12 @@ class App extends Component {
       {
         let divMovie = document.createElement("div");
         let imgPoster = new Image();
-        let strMovieID = arrMoiveData[nFirst].movie_id;
+        let strMovieTitle = arrMoiveData[nFirst].movie_title;
         // 스타일 적용
         divMovie.className = "movie_div";
         imgPoster.className = "img_poster"
         imgPoster.src = arrMoiveData[nFirst].poster_url;
-        divMovie.addEventListener("click", function(){THIS.getInfo(strMovieID, imgPoster.src);});
+        divMovie.addEventListener("click", function(){THIS.getInfo(strMovieTitle, imgPoster.src);});
         
         divMovie.appendChild(imgPoster);
         divMovieList.appendChild(divMovie);
@@ -110,7 +110,10 @@ class App extends Component {
     const THIS = this;
     let strGenre = this.props.match.params.genre;
     
-    this.ldrMovieData.search_condition.genre = strGenre;
+    if(strGenre != null && strGenre !== "")
+    {  
+      this.ldrMovieData.search_condition.genre = strGenre;
+    }
     this.ldrMovieData.search_condition.item_per_page = 6;
     this.ldrMovieData.getMovieList().then(function(arrMovieData)
       {
@@ -133,9 +136,9 @@ class App extends Component {
    */
   componentDidUpdate(nextProps) 
   {
-    if(this.props.match.params.genre !== "")
+    if(this.props.match.params.genre != null
+      && this.props.match.params.genre !== "")
     {
-      console.log("request list");
       this.getList();
       this.props.match.params.genre = "";
     }

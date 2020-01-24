@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Crawling from './Crawling';
 import "./MovieDetailPopup.css"
 
 class MovieDetailPopup extends Component {
@@ -34,7 +33,7 @@ class MovieDetailPopup extends Component {
                     개봉일
                   </div>
                   <div className="open_year">
-                    {this.props.movie_data.open_year.replace(/-/gi, '.')}
+                    {this.props.movie_data.open_year}
                   </div>
                 </div>
                 <div>
@@ -69,11 +68,7 @@ class MovieDetailPopup extends Component {
                 줄거리
               </div>
               <div id = 'realplot'>
-                {this.props.movie_data.plot.split('\n').map( 
-                  line => {
-                    return (<div>{line}</div>)
-                  })
-                }
+                {this.props.movie_data.plot}
               </div>
             </div>
         </div>

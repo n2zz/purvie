@@ -1001,7 +1001,6 @@ class MovieDataLoader
      */
     getKOBISList()
     {  
-        var arrMovieData = null;                           // 영화 데이터 목록
         const THIS = this;                                // this 객체
 
         let jsnMovieList = null;                           // API 후 넘겨 받은 JSON객체
@@ -1067,13 +1066,14 @@ class MovieDataLoader
                     }
                 ).then(function(jsnMovieList)
                     {
+                        let arrMovieData = [];                           // 영화 데이터 목록
+
                         // 넘겨받은 리스트 값이 있는 경우
                         if(THIS.validateMovieList(jsnMovieList))
                         {
                             let nFirst = 0;
                             let nTotalLength = 0;
-
-                            arrMovieData = [];
+                            
                             nTotalLength = jsnMovieList.length;
 
                             for(nFirst = 0; nFirst < nTotalLength; nFirst++)
