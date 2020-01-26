@@ -19,7 +19,7 @@ export const LoadingIndicator = (props) => {
           alignItems: "center"
         }}
         >
-          <Loader type="ThreeDots" color="rgba(255,255,255,0.7)" height='50' width='50' />
+          <Loader type="ThreeDots" color="rgba(255,255,255,0.9)" height='40px' width='40px' />
         </div>
        )
     );
