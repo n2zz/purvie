@@ -2,7 +2,36 @@ import React, { Component } from 'react';
 import "./MovieDetailPopup.css"
 
 class MovieDetailPopup extends Component {
-  
+  /**
+   * props 값이 바뀌면 호출되는 함수
+   * @param {} nextProps 
+   */
+  componentDidUpdate(nextProps) 
+  {
+    let divPopupInner = document.getElementById("div_movie_detail");
+
+    if(divPopupInner != null)
+    {
+      divPopupInner.style.display = "";
+    }
+   
+  }
+
+  /**
+   * 팝업 화면 처음 노출 시
+   * @param {} nextProps 
+   */
+  componentDidMount() 
+  {
+    let divPopupInner = document.getElementById("div_movie_detail");
+
+    if(divPopupInner != null)
+    {
+      divPopupInner.style.display = "none";
+    }
+   
+  }
+
   render()
   {
     return (
