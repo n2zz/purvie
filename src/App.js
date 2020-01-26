@@ -20,15 +20,13 @@ class App extends Component {
     // 팝업 화면 노출 여부와 값
     this.state = {
       showPopup:false
-      , click_popup_button : false
       , movie_data : {}
     };
   }
   togglePopup()
   {
     this.setState({
-      click_popup_button : true
-      , showPopup:!this.state.showPopup
+      showPopup:!this.state.showPopup
     });
   }
   /**
@@ -74,8 +72,11 @@ class App extends Component {
   drawMovieInfo(objMovieData)
   {
     const THIS = this;
-    THIS.state.movie_data = objMovieData;
-    THIS.togglePopup();
+    THIS.setState(
+      {
+        movie_data : objMovieData
+      }
+    );
   }
   /**
    * 영화 상세정보를 가져온다.
@@ -84,6 +85,8 @@ class App extends Component {
   getInfo(strMovieID, strPosterURL)
   {
     const THIS = this;
+    
+    THIS.togglePopup();
     
     trackPromise(
     THIS.ldrMovieData.getMovieInfoWithPoster(strMovieID, strPosterURL).then(
@@ -120,6 +123,7 @@ class App extends Component {
       }
     );
   }
+  
   /**
    * component가 완전히 마운트 된 경우 호출 함수
    * 넘겨받은 파라미터 값을 참고하여 결과를 출력한다.

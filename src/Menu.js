@@ -40,9 +40,9 @@ class Menu extends Component {
             </div>
             <div className="search_group">
               <div className="search">
-                <input type="text" class="search_input" placeholder="Search" />
-                <div class="search_line"></div>
-                <div class="search_close"></div>
+                <input type="text" className="search_input" placeholder="Search" />
+                <div className="search_line"></div>
+                <div className="search_close"></div>
               </div>
             </div>
             <div>
