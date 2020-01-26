@@ -97,46 +97,25 @@ class MoiveDataCrawler
                                 , configurable: false});
 
         let m_strGenre = this.GENRES.COMEDY;
-        Object.defineProperty(this.search_condition, "genre"
-                                , {
-                                    get() { return m_strGenre; },
-                                    set(strGenre) {
-                                        if(typeof(strGenre) == 'string')
-                                        {
-                                            if(strGenre === "액션")
-                                            {
-                                                m_strGenre = THIS.GENRES.ACTION;
-                                            }
-                                            else if(strGenre === "코미디")
-                                            {
-                                                m_strGenre = THIS.GENRES.COMEDY;
-                                            }
-                                            else if(strGenre === "공포")
-                                            {
-                                                m_strGenre = THIS.GENRES.HORROR;
-                                            }
-                                            else if(strGenre === "모험")
-                                            {
-                                                m_strGenre = THIS.GENRES.ADVENTURE;
-                                            }
-                                            else if(strGenre === "로맨스")
-                                            {
-                                                m_strGenre = THIS.GENRES.ROMANCE;
-                                            }
-                                            else if(strGenre === "애니메이션")
-                                            {
-                                                m_strGenre = THIS.GENRES.ANIMATION;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            console.log("[MovieDataLoader.search_config.genre]:문자열만 입력 가능합니다.");
-                                        }
-                                    },
-                                    enumerable: true,
-                                    configurable: false
-                                }
-                            );
+        Object.defineProperty(this.search_condition
+                            , "genre"
+                            , {
+                                get() { return m_strGenre; },
+                                set(strGenre) {
+                                    if(typeof(strGenre) === 'string' 
+                                        && THIS.GENRES.hasOwnProperty(strGenre))
+                                    {
+                                        m_strGenre = THIS.GENRES[strGenre];
+                                    }
+                                    else
+                                    {
+                                        console.log("[MovieDataLoader.search_config.genre]:문자열 및 GERENS에 해당하는 값만 입력 가능합니다.");
+                                    }
+                                },
+                                enumerable: true,
+                                configurable: false
+                            }
+        );
         
         // 한 페이지에 로드할 영화 수(기본 10, 최대 10)
         let m_nItemPerPage = 10;
