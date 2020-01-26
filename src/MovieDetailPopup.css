@@ -6,13 +6,13 @@
 .popup {
     position: fixed;
     width: 100%;
-    
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     margin: auto;
     background-color: rgba(0,0,0, 0.5);
+    overflow: scroll;
   }
   
 .popup_inner {
@@ -23,6 +23,17 @@
   background-color: rgba(0,0,0, 0.6);
   color: white;
   box-shadow: 0 0 15px 7px rgba(150, 150, 150, 0.3);
+  animation: fadein 1s;
+  -webkit-animation: fadein 1s;
+}
+
+@keyframes fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-webkit-keyframes fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .context {
@@ -45,15 +56,19 @@
   color: white;
   margin: 1.4vw 1.2vw 0vw;
   font-family: "dovemayo";
+  font-size: 2vw;
   cursor: pointer;
   outline: 0;
+}
+.button:hover {
+  font-weight: bold;
 }
 .image {
   width: 25vw;
   margin: 1.5vw;
   margin-right: 1.5vw;
   float: left;
-  cursor: pointer;
+  box-shadow: 0 0 8px 3px #111;
 }
 .info {
   font-family: "NanumSquare_acR";
@@ -67,12 +82,13 @@
   font-family: "NanumSquare_acB";
   overflow: scroll;
   white-space: nowrap;
-  display: flex;
   font-size: 4vw;
+  margin-bottom: 2vw;
 }
 
 .open {
   font-family: "NanumSquare_acB";
+  padding-bottom: 0.5vw;
   color: #eee;
 }
 .open_year {
@@ -82,6 +98,7 @@
 }
 .actor {
   font-family: "NanumSquare_acB";
+  padding-bottom: 0.5vw;
   color: #eee;
 }
 .actor_text {
@@ -91,6 +108,7 @@
 }
 .genres {
   font-family: "NanumSquare_acB";
+  padding-bottom: 0.5vw;
   color: #eee;
 }
 .genres_text {
@@ -100,6 +118,7 @@
 }
 .nations {
   font-family: "NanumSquare_acB";
+  padding-bottom: 0.5vw;
   color: #eee;
 }
 .nations_text {
@@ -110,44 +129,57 @@
 
 .plot {
   font-family: "NanumSquare_acB";
-  font-size: 2vw;
+  font-size: 2.2vw;
   clear: both;
-  margin: 2vw;
+  margin: 2vw 2vw 1vw;
   color: #eee;
+}
+
+#realplot {
+  height: 16vw;
+  font-family: "NanumSquare_acR";
+  font-size: 2vw;
+  letter-spacing: 0.5px;
+  line-height: 2.8vw;
+  color: #ccc;
+  margin: 0 2.3vw 2vw;
+  overflow-y: scroll;
 }
 
 @media (max-width: 500px) {
   .popup_inner { width: 300px; height: 325px; margin-top: 30vw; }
-  .movie_info { margin: 10PX 10PX 0vw; font-size: 10px; }
-  .button { margin: 8px 5px 0px; }
-  .image { width:130px; margin: 0 10px 0 7px; }
-  .info { width: 150px; font-size: 12px; padding:0; padding-top: 5px; }
-  .title { width: 140px; font-size: 20px; padding-bottom: 10px; }
-  .open { padding-bottom: 4px; }
-  .open_year { font-size: 10px; padding-bottom: 13px; }
-  .actor { padding-bottom: 4px; }
-  .actor_text { font-size: 10px; padding-bottom: 13px; }
-  .genres { padding-bottom: 4px; }
-  .genres_text { font-size: 10px; padding-bottom: 13px; }
-  .nations { padding-bottom: 4px; }
-  .nations_text { font-size: 10px; padding-bottom: 13px; }
-  .plot { font-size: 10px; margin: 13px; }
+  .movie_info { margin: 10PX 10PX 5px; font-size: 5px; }
+  .button { font-size: 10px; margin: 8px 5px 0px; }
+  .image { width:130px; margin: 0 5px 0 7px; }
+  .info { width: 155px; font-size: 12px; padding:0; }
+  .title { width: 140px; font-size: 20px; padding-bottom: 1px; }
+  .open { padding-bottom: 2px; }
+  .open_year { font-size: 8px; padding-bottom: 10px; }
+  .actor { padding-bottom: 2px; }
+  .actor_text { font-size: 8px; padding-bottom: 10px; }
+  .genres { padding-bottom: 2px; }
+  .genres_text { font-size: 8px; padding-bottom: 10px; }
+  .nations { padding-bottom: 2px; }
+  .nations_text { font-size: 8px; padding-bottom: 10px; }
+  .plot { font-size: 12px; margin: 10px; padding-top: 5px; }
+  #realplot { height: 70px; font-size: 8px; margin: 0 10px 10px; line-height: 12px;}
 }
 
 @media (min-width: 800px) {
-  .popup_inner { width: 480px; height: 520px; margin: auto; margin-top: 150px; }
+  .popup_inner { width: 480px; height: 520px; margin: auto; margin-top: 160px; }
   .movie_info { margin: 16px 16px 0vw; font-size: 16px; }
-  .button { margin: 11px 9px 0; }
-  .image { width:200px; margin: 12px 17px 12px 12px; }
-  .info { width: 230px; font-size: 16px; padding-top: 16px; padding-right: 20px; }
-  .title { width: 230px; font-size: 32px; }
+  .button { margin: 11px 9px 0; font-size: 17px; }
+  .image { width:200px; margin: 12px 12px 12px 12px; }
+  .info { width: 235px; font-size: 16px; padding-top: 16px; padding-right: 20px; }
+  .title { width: 230px; font-size: 32px; margin-bottom: 10px; }
   .open { padding-bottom: 4px; }
-  .open_year { font-size: 16px; padding-bottom: 13px; }
+  .open_year { font-size: 14px; padding-bottom: 13px; }
   .actor { padding-bottom: 4px; }
-  .actor_text { font-size: 16px; padding-bottom: 13px; }
-  .genres { padding-bottom: 0px; }
-  .genres_text { font-size: 16px; padding-bottom: 13px; }
+  .actor_text { font-size: 14px; padding-bottom: 13px; }
+  .genres { padding-bottom: 4px; }
+  .genres_text { font-size: 14px; padding-bottom: 13px; }
   .nations { padding-bottom: 4px; }
-  .nations_text { font-size: 16px; padding-bottom: 13px; }
-  .plot { font-size: 16px; margin: 13px; }
+  .nations_text { font-size: 14px; padding-bottom: 13px; }
+  .plot { font-size: 16px; margin: 13px; padding-top: 5px; }
+  #realplot { height: 125px; font-size: 14px; margin: 0 13px 13px; }
 }

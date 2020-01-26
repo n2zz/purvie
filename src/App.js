@@ -3,7 +3,6 @@ import MoiveDataCrawler from './loader/MoiveDataCrawler';
 import MovieDetailPopup from './MovieDetailPopup';
 import './App.css'
 import { trackPromise } from 'react-promise-tracker';
-import { LoadingIndicator } from './Menu1.js';
 
 class App extends Component {
   static arrMoiveData = null;

@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import MoiveDataCrawler from './loader/MoiveDataCrawler'
 import "./App.css"
 import "./MainStillcutSlider.css"
+import { trackPromise } from 'react-promise-tracker';
 
 class StillcutUnit extends Component {
 
@@ -41,11 +42,13 @@ class MainStillcutSlider extends Component {
     /**
    * 박스오피스 목록을 가져온다.
    */
+
     getStillcutList()
     {
         const THIS = this;
         THIS.ldrMovieData.search_condition.item_per_page = 5;
 
+        trackPromise(
         THIS.ldrMovieData.getBoxOfficeListWithStillcut().then(
             function(arrBOData)
             {
@@ -58,7 +61,7 @@ class MainStillcutSlider extends Component {
             {
             console.log("Error Massage : " + e);
             }
-        );
+        ), 'detail-area');
     }
 
     componentDidMount() {
