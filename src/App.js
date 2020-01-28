@@ -85,6 +85,9 @@ class App extends Component {
         divMovieList.appendChild(divMovie);
       }
     }
+    
+    // 추가 활동 끝을 알리기 위한 초기화
+    THIS.hdlAddListTimer = null;
   }
   /**
    * 영화 상세정보를 출력한다.
@@ -162,11 +165,11 @@ class App extends Component {
   {
     const THIS = this;
 
-    var scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-    var scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
+    var scrollTop = Math.round((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop);
+    var scrollHeight = ((document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight) - 56;
     var clientHeight = document.documentElement.clientHeight || window.innerHeight;
-    var scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
-
+    var scrolledToBottom = Math.floor(scrollTop + clientHeight) >= scrollHeight;
+    
     if(scrollTop > 500)
     {
       THIS.showClickTopButton();
@@ -176,7 +179,7 @@ class App extends Component {
       THIS.hiddenClickTopButton();
     }
     
-    if(scrolledToBottom)
+    if(scrolledToBottom && THIS.hdlAddListTimer == null)
     {
       THIS.hdlAddListTimer = setTimeout(function()
         { 
