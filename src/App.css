@@ -80,3 +80,36 @@
   .movie_div { width: 810px; }
   .img_poster { width: 145px; height: 215px; }
 }
+
+@keyframes fadeinButton {
+  0% { opacity: 0; }
+  50% { opacity: 0.5; }
+}
+@-webkit-keyframes fadeinButton {
+  0% { opacity: 0; }
+  50% { opacity: 0.5; }
+}
+.movie_infinite_list
+{
+  overflow:auto;
+}
+
+.app_click_top
+{
+  width:100%;
+  height:25px;
+  background:#181818;
+  position:fixed;
+  padding-top:10px;
+  z-index:5;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  text-align:center;
+  font-weight: bold;
+  color:#ffffff;
+  opacity: 0.7;
+  bottom:0;
+  animation: fadeinButton 1s;
+  -webkit-animation: fadeinButton 1s;
+}
+

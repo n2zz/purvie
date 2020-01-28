@@ -39,7 +39,7 @@ class MoiveDataCrawler
                                 , configurable: false});
 
         // 네이버 영화 목록 URL
-        let strNaverURLPrefix= "https://m.search.naver.com/p/csearch/content/qapirender.nhn?_callback=window.__jindo2_callback._$3361_0&pkid=68&where=nexearch&start=1&display=10&q=";
+        let strNaverURLPrefix= "https://m.search.naver.com/p/csearch/content/qapirender.nhn?_callback=window.__jindo2_callback._$3361_0&pkid=68&where=nexearch&q=";
         Object.defineProperty(this, "MOIVELIST_CRAWLING_URL_PREFIX"
                                 , {value : strNaverURLPrefix
                                 , writable : false
@@ -51,12 +51,6 @@ class MoiveDataCrawler
                                 , writable : false
                                 , configurable: false});
         
-        // 네이버 영화 상세 정보 URL
-        let strNaverDetailURL = "https://movie.naver.com/movie/bi/mi/basic.nhn?code=";
-        Object.defineProperty(this, "NAVER_DETAIL_URL"
-                                , {value : strNaverDetailURL
-                                , writable : false
-                                , configurable: false});
         // 네이버 영화 상세 정보 URL
         let strNaverDetailMobileURL = "https://m.search.naver.com/search.naver?where=m&query=";
         Object.defineProperty(this, "NAVER_DETAIL_MOBILE_URL"
@@ -123,7 +117,7 @@ class MoiveDataCrawler
                                 , {
                                     get() { return m_nItemPerPage; },
                                     set(nItemPerPage) {
-                                        if(typeof(nItemPerPage) == 'number')
+                                        if(typeof(nItemPerPage) === 'number')
                                         {
                                             if(nItemPerPage > 0 && nItemPerPage <= 10)
                                             {
@@ -133,6 +127,25 @@ class MoiveDataCrawler
                                             {
                                                 console.log("[MovieDataLoader.search_config.item_per_page]:숫자 1~10을 입력해주세요.");
                                             }
+                                        }
+                                        else
+                                        {
+                                            console.log("[MovieDataLoader.search_config.item_per_page]:숫자만 입력 가능합니다.");
+                                        }
+                                    },
+                                    enumerable: true,
+                                    configurable: false
+                                }
+                            );
+        // 한 페이지에 로드할 영화 수(기본 10, 최대 10)
+        let m_nCurrentPage = 1;
+        Object.defineProperty(this.search_condition, "current_page"
+                                , {
+                                    get() { return m_nCurrentPage; },
+                                    set(nCurrentPage) {
+                                        if(typeof(nCurrentPage) === 'number')
+                                        {
+                                            m_nCurrentPage = nCurrentPage;
                                         }
                                         else
                                         {
@@ -256,7 +269,8 @@ class MoiveDataCrawler
         const THIS = this;
         const MOVIELIST_URL = (THIS.MOIVELIST_CRAWLING_URL_PREFIX 
                             + THIS.BOXOFFICE_CRAWLING_KEY 
-                            + THIS.MOIVELIST_CRAWLING_URL_POSTFIX);
+                            + THIS.MOIVELIST_CRAWLING_URL_POSTFIX
+        );
         
         // 설정된 URL 정보로 호출 후 값을 받아온 후 JSON객체 정보만 추려서 객체화 한다.
         // window.__jindo2_callback._$3361_0([JSON 형태]); <= 형태로 값이 반환됨
@@ -284,7 +298,7 @@ class MoiveDataCrawler
                                     return (arrConvertMovieList.length === THIS.search_condition.item_per_page);
                                 }
                             );
-
+                            
                             return arrConvertMovieList;
                         }
                     }
@@ -386,9 +400,18 @@ class MoiveDataCrawler
     getMovieList()
     {
         const THIS = this;
+        let nStart = 1;
+        
+        if(THIS.search_condition.current_page > 1)
+        {
+            nStart = (THIS.search_condition.current_page - 1) * THIS.search_condition.item_per_page + 1;
+        }
         const MOVIELIST_URL = (THIS.MOIVELIST_CRAWLING_URL_PREFIX 
                             + THIS.search_condition.genre 
-                            + THIS.MOIVELIST_CRAWLING_URL_POSTFIX);
+                            + THIS.MOIVELIST_CRAWLING_URL_POSTFIX
+                            + "&start=" + nStart 
+                            + "&display=" + THIS.search_condition.item_per_page
+        );
         
         return axios.get(MOVIELIST_URL).then(
             function(response)
@@ -442,7 +465,7 @@ class MoiveDataCrawler
 
             return axios.get(THIS.CORS_ANYWHERE_URL 
                 + THIS.NAVER_DETAIL_MOBILE_URL 
-                + strMovieTitle, objOptions)
+                + "영화 " + strMovieTitle, objOptions)
             .then(function(response)
                 {
                     let objMovieData = {};
@@ -456,7 +479,7 @@ class MoiveDataCrawler
                     {
                         const $ = cheerio.load(response.data);
                         const $htmlDetailInfo = $("div.api_subject_bx");
-
+                        
                         // 값이 있는 경우
                         if($htmlDetailInfo != null)
                         {
@@ -515,7 +538,7 @@ class MoiveDataCrawler
                     }
                     catch(e)
                     {
-                        console.log("[MovieDataCrawler.getMovieInfoWithPoster]" + e);
+                        console.log("[MovieDataCrawler.getMovieInfoWithPoster] : " + e);
                     }
 
                     // 포스터 URL
