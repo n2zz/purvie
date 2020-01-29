@@ -237,7 +237,7 @@ class App extends Component {
   {
     // 맨위로 버튼을 숨긴다.
     let divClickTop = document.getElementById("div_click_top");
-    divClickTop.addEventListener("click", function(){window.scrollTo(0, 0);})
+    divClickTop.addEventListener("click", function(){window.scrollTo(0, 0);});
     divClickTop.style.display = "";
   }
 
@@ -256,10 +256,24 @@ class App extends Component {
    *  - genre : 장르
    */
   componentDidMount() {
+    const THIS = this;
     this.hiddenClickTopButton();
-    window.addEventListener('scroll', this.handleOnScroll.bind(this));
+    window.onscroll = function()
+      {
+        THIS.handleOnScroll();
+      };
+    
+    //window.removeEventListener('scroll', this.handleOnScroll);
     this.genre = this.props.match.params.genre;
     this.getList(false);
+  }
+
+  /**
+   * Component가 마운트 해제될 때 호출 함수
+   */
+  componentWillUnmount()
+  {
+    window.onscroll = null;
   }
 
   /**
